@@ -12,10 +12,10 @@ import com.example.smartattendance.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link Create_Database#newInstance} factory method to
+ * Use the {@link AddDbFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Create_Database extends Fragment {
+public class AddDbFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,7 +26,7 @@ public class Create_Database extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public Create_Database() {
+    public AddDbFragment() {
         // Required empty public constructor
     }
 
@@ -39,8 +39,8 @@ public class Create_Database extends Fragment {
      * @return A new instance of fragment Create_Database.
      */
     // TODO: Rename and change types and number of parameters
-    public static Create_Database newInstance(String param1, String param2) {
-        Create_Database fragment = new Create_Database();
+    public static AddDbFragment newInstance(String param1, String param2) {
+        AddDbFragment fragment = new AddDbFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -61,6 +61,6 @@ public class Create_Database extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_create__database, container, false);
+        return inflater.inflate(R.layout.fragment_add_db, container, false);
     }
 }
