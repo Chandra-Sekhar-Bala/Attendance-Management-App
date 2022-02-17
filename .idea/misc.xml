@@ -3,6 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Programming/Final Year Project/app/src/main/res/drawable/gradation_black.xml" value="0.21666666666666667" />
+        <entry key="..\:/Programming/Final Year Project/app/src/main/res/drawable/ic_arrow_forward_black_24dp.xml" value="0.21666666666666667" />
+        <entry key="..\:/Programming/Final Year Project/app/src/main/res/drawable/overlay_black.xml" value="0.21666666666666667" />
         <entry key="..\:/Programming/Final Year Project/app/src/main/res/layout/activity_main.xml" value="0.20052083333333334" />
         <entry key="..\:/Programming/Final Year Project/app/src/main/res/layout/activity_signup.xml" value="0.18645833333333334" />
         <entry key="..\:/Programming/Final Year Project/app/src/main/res/layout/fragment_addDB.xml" value="0.20052083333333334" />
@@ -10,6 +13,7 @@
         <entry key="..\:/Programming/Final Year Project/app/src/main/res/layout/fragment_add_db.xml" value="0.20052083333333334" />
         <entry key="..\:/Programming/Final Year Project/app/src/main/res/layout/fragment_create__database.xml" value="0.18645833333333334" />
         <entry key="..\:/Programming/Final Year Project/app/src/main/res/layout/fragment_profile.xml" value="0.20052083333333334" />
+        <entry key="..\:/Programming/Final Year Project/app/src/main/res/layout/item_card.xml" value="0.20052083333333334" />
       </map>
     </option>
   </component>
