@@ -42,9 +42,9 @@ public class MainActivity extends AppCompatActivity {
                 .setInActiveColor("#353b48");
 
         bottomNavigationBar
-                .addItem(new BottomNavigationItem(R.drawable.attendance_icon, "Attendance").setActiveColor("#3949ab"))
-                .addItem(new BottomNavigationItem(R.drawable.database_icon, "Database").setActiveColor("#009688"))
-                .addItem(new BottomNavigationItem(R.drawable.profile_icon, "Profile").setActiveColor("#ffa726"))
+                .addItem(new BottomNavigationItem(R.drawable.attendance_icon, "Attendance").setActiveColor("#040338"))
+                .addItem(new BottomNavigationItem(R.drawable.database_icon, "Database").setActiveColor("#070565"))
+                .addItem(new BottomNavigationItem(R.drawable.profile_icon, "Profile").setActiveColor("#0C099F"))
                 .initialise();
 
         if (savedInstanceState == null) {
