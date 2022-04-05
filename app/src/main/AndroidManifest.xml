@@ -10,6 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SmartAttendance">
         <activity
+            android:name=".activities.EditClass"
+            android:exported="false" />
+        <activity
+            android:name=".activities.CreateClass"
+            android:exported="false" />
+        <activity
             android:name=".activities.CreateNewDatabase"
             android:exported="false" />
         <activity
