@@ -3,6 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Attendance-Management2/Attendance-Management-App/app/src/main/res/drawable/ic_baseline_delete_24.xml" value="0.1675" />
+        <entry key="..\:/Attendance-Management2/Attendance-Management-App/app/src/main/res/layout/activity_add_sem_fragment.xml" value="0.25416666666666665" />
+        <entry key="..\:/Attendance-Management2/Attendance-Management-App/app/src/main/res/layout/fragment_add_db.xml" value="0.25416666666666665" />
+        <entry key="..\:/Attendance-Management2/Attendance-Management-App/app/src/main/res/layout/fragment_add_sem.xml" value="0.25416666666666665" />
+        <entry key="..\:/Attendance-Management2/Attendance-Management-App/app/src/main/res/layout/fragment_attendance__card.xml" value="0.25416666666666665" />
+        <entry key="..\:/Attendance-Management2/Attendance-Management-App/app/src/main/res/layout/item_view.xml" value="0.25416666666666665" />
         <entry key="..\:/Programming/Final Year Project/app/src/main/res/drawable/database_icon.xml" value="0.1765" />
         <entry key="..\:/Programming/Final Year Project/app/src/main/res/drawable/default_profile.xml" value="0.14666666666666667" />
         <entry key="..\:/Programming/Final Year Project/app/src/main/res/drawable/gradation_black.xml" value="0.21666666666666667" />

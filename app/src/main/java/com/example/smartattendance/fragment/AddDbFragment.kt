@@ -1,33 +1,35 @@
 package com.example.smartattendance.fragment
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.smartattendance.R
+import com.example.smartattendance.database.streamAdapterClass
+import com.example.smartattendance.database.streamDataClass
+import com.google.firebase.database.*
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [AddDbFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class AddDbFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
+    lateinit var database: FirebaseDatabase
+    lateinit var myRef: DatabaseReference
+    lateinit var myRef2: DatabaseReference
+    lateinit var myRef3: DatabaseReference
+    lateinit var addStreamData: Button
+    lateinit var userStreamName: EditText
+    lateinit var userRecyclerView: RecyclerView
+    lateinit var userArrayList: ArrayList<streamDataClass>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
+
     }
 
     override fun onCreateView(
@@ -38,23 +40,100 @@ class AddDbFragment : Fragment() {
         return inflater.inflate(R.layout.fragment_add_db, container, false)
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment AddDbFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            AddDbFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        database = FirebaseDatabase.getInstance()
+        myRef = database.getReference("BIMS")
+        myRef2 = database.getReference("BIMS")
+        addStreamData=view.findViewById(R.id.Add_Stream)
+        userStreamName=view.findViewById(R.id.user_stream_item)
+
+        userRecyclerView=view.findViewById(R.id.Add_RecyclerView)
+
+    }
+    override fun onResume() {
+        data()
+        super.onResume()
+        addStreamData.setOnClickListener(){
+            if(userStreamName.text.isEmpty()){
+                Toast.makeText(context, "please enter semester", Toast.LENGTH_SHORT).show()
+            }
+            else{
+                myRef.child("user_Email").child(userStreamName.text.toString())
+                    .child("StreamName").setValue(userStreamName.text.toString())
+            }
+            data()
+        }
+
+
+    }
+
+    private fun data() {
+        userRecyclerView.layoutManager= LinearLayoutManager(context)
+        userRecyclerView.setHasFixedSize(true)
+
+        userArrayList= arrayListOf<streamDataClass>()
+
+        removeUserData()
+        getUserData()
+    }
+
+    private fun getUserData() {
+        myRef2 = database.getReference("BIMS").child("user_Email")
+
+        myRef2.addValueEventListener(object : ValueEventListener {
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()){
+                    for(userSnapshot in snapshot.children){
+
+                        val user=userSnapshot.getValue(streamDataClass::class.java)
+                        userArrayList.add(user!!)
+                    }
+                    val adapter= streamAdapterClass(userArrayList, context = this@AddDbFragment)
+                    userRecyclerView.adapter = streamAdapterClass(userArrayList, context = this@AddDbFragment)
+                    adapter.setOnItemClickListener(object : streamAdapterClass.onItemClickListener {
+                        override fun onClicked(DataName: String) {
+                            Toast.makeText(context,"click",Toast.LENGTH_SHORT).show()
+                            val nextFrag = AddSemFragment()
+                            val bundle = Bundle()
+                            bundle.putString("key", DataName)
+                            nextFrag.arguments = bundle
+                            requireActivity().supportFragmentManager.beginTransaction()
+                                .replace(R.id.frameLayout, nextFrag, "NewFragment")
+                                .addToBackStack(null)
+                                .commit()
+                        }
+                    })
                 }
             }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
     }
+    private fun removeUserData() {
+        myRef2 =  database.getReference("BIMS").child("user_Email").child("StreamName")
+
+        myRef2.addValueEventListener(object : ValueEventListener {
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+
+                userArrayList.clear()
+                val adapter= streamAdapterClass(userArrayList, context = this@AddDbFragment)
+                userRecyclerView.adapter = adapter
+
+            }
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
+        fun onClick(position: Int) {
+            Toast.makeText(context, "onClick $position", Toast.LENGTH_LONG).show()
+        }
+    }
+
+
 }
