@@ -42,60 +42,65 @@ class AddSemFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        database = FirebaseDatabase.getInstance()
-        myRef = database.getReference("BIMS")
-        myRef2 = database.getReference("BIMS")
-        addSemData=view.findViewById(R.id.Add_Sem)
-        userSemName=view.findViewById(R.id.user_sem_item)
+        val bundle = this.arguments
+        val str = bundle?.getString("key","NOT")
+        Toast.makeText(context,"Coming from Stream\n Passed data $str",Toast.LENGTH_SHORT).show()
 
-        userRecyclerView=view.findViewById(R.id.Add_RecyclerView_sem)
+
+//        database = FirebaseDatabase.getInstance()
+//        myRef = database.getReference("BIMS")
+//        myRef2 = database.getReference("BIMS")
+//        addSemData=view.findViewById(R.id.Add_Sem)
+//        userSemName=view.findViewById(R.id.user_sem_item)
+//
+//        userRecyclerView=view.findViewById(R.id.Add_RecyclerView_sem)
     }
-    override fun onResume() {
-        data()
-        super.onResume()
-        addSemData.setOnClickListener(){
-            if(userSemName.text.isEmpty()){
-                Toast.makeText(context, "please enter semester", Toast.LENGTH_SHORT).show()
-            }
-            else{
-                myRef.child("user_Email").child("BCA")
-                    .child("StreamName").child(userSemName.text.toString()).
-                    child("sem").child(userSemName.text.toString())
-            }
-            data()
-        }
-    }
-    private fun data() {
-        userRecyclerView.layoutManager= LinearLayoutManager(context)
-        userRecyclerView.setHasFixedSize(true)
-
-        userArrayList= arrayListOf<semDataClass>()
-
-        //removeUserData()
-        getUserData()
-    }
-    private fun getUserData() {
-        myRef2 = database.getReference("BIMS").child("user_Email")
-
-        myRef2.addValueEventListener(object : ValueEventListener {
-
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.exists()){
-                    for(userSnapshot in snapshot.children){
-
-                        val user=userSnapshot.getValue(semDataClass::class.java)
-                        userArrayList.add(user!!)
-                    }
-                    val adapter= semAdapterClass(userArrayList, context = this@AddSemFragment)
-                    userRecyclerView.adapter = semAdapterClass(userArrayList, context = this@AddSemFragment)
-
-                }
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
-            }
-
-        })
-    }
+//    override fun onResume() {
+//        data()
+//        super.onResume()
+//        addSemData.setOnClickListener(){
+//            if(userSemName.text.isEmpty()){
+//                Toast.makeText(context, "please enter semester", Toast.LENGTH_SHORT).show()
+//            }
+//            else{
+//                myRef.child("user_Email").child("BCA")
+//                    .child("StreamName").child(userSemName.text.toString()).
+//                    child("sem").child(userSemName.text.toString())
+//            }
+//            data()
+//        }
+//    }
+//    private fun data() {
+//        userRecyclerView.layoutManager= LinearLayoutManager(context)
+//        userRecyclerView.setHasFixedSize(true)
+//
+//        userArrayList= arrayListOf<semDataClass>()
+//
+//        //removeUserData()
+//        getUserData()
+//    }
+//    private fun getUserData() {
+//        myRef2 = database.getReference("BIMS").child("user_Email")
+//
+//        myRef2.addValueEventListener(object : ValueEventListener {
+//
+//            override fun onDataChange(snapshot: DataSnapshot) {
+//                if (snapshot.exists()){
+//                    for(userSnapshot in snapshot.children){
+//
+//                        val user=userSnapshot.getValue(semDataClass::class.java)
+//                        userArrayList.add(user!!)
+//                    }
+//                    val adapter= semAdapterClass(userArrayList, context = this@AddSemFragment)
+//                    userRecyclerView.adapter = semAdapterClass(userArrayList, context = this@AddSemFragment)
+//
+//                }
+//            }
+//
+//            override fun onCancelled(error: DatabaseError) {
+//                TODO("Not yet implemented")
+//            }
+//
+//        })
+//    }
 }

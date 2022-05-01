@@ -16,7 +16,7 @@ import com.example.smartattendance.database.streamDataClass
 import com.google.firebase.database.*
 
 
-class AddDbFragment : Fragment() {
+class AddDbFragment : Fragment(), streamAdapterClass.StreamItemCLicked {
 
     lateinit var database: FirebaseDatabase
     lateinit var myRef: DatabaseReference
@@ -26,11 +26,8 @@ class AddDbFragment : Fragment() {
     lateinit var userStreamName: EditText
     lateinit var userRecyclerView: RecyclerView
     lateinit var userArrayList: ArrayList<streamDataClass>
+    lateinit var adapter: streamAdapterClass
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -72,7 +69,7 @@ class AddDbFragment : Fragment() {
         userRecyclerView.layoutManager= LinearLayoutManager(context)
         userRecyclerView.setHasFixedSize(true)
 
-        userArrayList= arrayListOf<streamDataClass>()
+        userArrayList= arrayListOf()
 
         removeUserData()
         getUserData()
@@ -90,21 +87,8 @@ class AddDbFragment : Fragment() {
                         val user=userSnapshot.getValue(streamDataClass::class.java)
                         userArrayList.add(user!!)
                     }
-                    val adapter= streamAdapterClass(userArrayList, context = this@AddDbFragment)
-                    userRecyclerView.adapter = streamAdapterClass(userArrayList, context = this@AddDbFragment)
-                    adapter.setOnItemClickListener(object : streamAdapterClass.onItemClickListener {
-                        override fun onClicked(DataName: String) {
-                            Toast.makeText(context,"click",Toast.LENGTH_SHORT).show()
-                            val nextFrag = AddSemFragment()
-                            val bundle = Bundle()
-                            bundle.putString("key", DataName)
-                            nextFrag.arguments = bundle
-                            requireActivity().supportFragmentManager.beginTransaction()
-                                .replace(R.id.frameLayout, nextFrag, "NewFragment")
-                                .addToBackStack(null)
-                                .commit()
-                        }
-                    })
+
+                    adapter= streamAdapterClass(userArrayList,this@AddDbFragment)
                 }
             }
 
@@ -122,10 +106,10 @@ class AddDbFragment : Fragment() {
             override fun onDataChange(snapshot: DataSnapshot) {
 
                 userArrayList.clear()
-                val adapter= streamAdapterClass(userArrayList, context = this@AddDbFragment)
+                adapter = streamAdapterClass(userArrayList,this@AddDbFragment)
                 userRecyclerView.adapter = adapter
-
             }
+
             override fun onCancelled(error: DatabaseError) {
                 TODO("Not yet implemented")
             }
@@ -135,5 +119,18 @@ class AddDbFragment : Fragment() {
         }
     }
 
+    override fun onItemCLicked(item: String) {
+
+//        Toast.makeText(context, "CLicked item $item", Toast.LENGTH_SHORT).show()
+
+        val nextFrag = AddSemFragment()
+        val bundle = Bundle()
+        bundle.putString("key", item)
+        nextFrag.arguments = bundle
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.frameLayout, nextFrag, "NewFragment")
+            .addToBackStack(null)
+            .commit()
+    }
 
 }
