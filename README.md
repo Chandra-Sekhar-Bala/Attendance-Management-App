@@ -4,7 +4,7 @@ Out final year project app
 Prototye link: <a href="https://www.figma.com/file/noRd5ORgXFJHgIDtjcBfLS/Attendance-App_Degisn(Chandra)"> Figma </a>
 
 # Team members :
-<https://github.com/Chandra-Sekhar-Bala> Chandra Sekhar Bala < /a>
-<https://github.com/neelqq> Bratabitan Banerjee < /a>
-<https://github.com/dip-ai> Dipanjon Saha < /a>
-<https://github.com/ramenroy> Ramen Roy < /a>
+<a herf = "https://github.com/Chandra-Sekhar-Bala"> Chandra Sekhar Bala < /a>
+<a herf = "https://github.com/neelqq"Banerjee < /a>  
+<a herf = "https://github.com/dip-ai"ha < /a>
+<a herf = "https://github.com/ramenroy"> Ramen Roy < /a>
