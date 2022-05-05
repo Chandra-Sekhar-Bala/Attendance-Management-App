@@ -2,4 +2,11 @@
     <string name="app_name">Smart Attendance</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="create_database">Create Database</string>
+    <string name="top_Image">Top Image</string>
+    <string name="bottom_Image">Bottom Image</string>
+    <string name="google_text">Sign Up With Google</string>
+    <string name="email_text">Sign Up With Email</string>
+    <string name="guest_text">Continue As a Guest</string>
+    <string name="vector_Image">Vector Image</string>
 </resources>
