@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     tools:context=".fragment.AddSemFragment"
     android:orientation="vertical"
+    android:background="@color/ic_launcher_background"
     android:layout_margin="10dp">
 
     <EditText

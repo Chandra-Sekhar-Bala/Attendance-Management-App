@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             fragmentManager.beginTransaction()
-                    .replace(R.id.frameLayout,new Attendance())
+                    .replace(R.id.frameLayout,new Attendance(""))
                     .commit();
         }
 
@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
                 Fragment fragment = null;
                  switch (position){
                      case 0 :
-                         fragment = new Attendance();
+                         fragment = new Attendance("");
                          break;
                      case 1:
                          fragment = new AddDbFragment();

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".activities.AddName"
+    android:background="@drawable/back_img1"
+   >
+
+    <Button
+        android:textStyle="bold"
+        android:backgroundTint="@color/purple_200"
+        android:id="@+id/startAttendance"
+        android:text="start Attendance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"/>
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardElevation="10dp"
+        app:cardCornerRadius="5dp"
+
+        app:cardBackgroundColor="@color/white"
+        app:cardMaxElevation="12dp"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true"
+        >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+    <EditText
+        android:inputType="number"
+        android:id="@+id/sdtRoll"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        android:hint="enter the roll number of student"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"/>
+    <EditText
+        android:id="@+id/sdtName"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        android:hint="enter the name of student"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"/>
+    <EditText
+        android:inputType="number"
+        android:id="@+id/sdtPresent"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        android:hint="enter the number of Present"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"/>
+    </LinearLayout>
+    </androidx.cardview.widget.CardView>
+    <Button
+        android:id="@+id/addStudent"
+        android:text="add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:textStyle="bold"
+        android:backgroundTint="@color/purple_200"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        tools:listitem="@layout/item_view_std"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>
