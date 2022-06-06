@@ -3,23 +3,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="#FFFFFF"
     android:textColor="@color/white"
     android:layout_margin="10dp"
-    android:orientation="vertical">
-    <EditText
-        android:id="@+id/user_stream_item"
-        android:hint="enter the Stream"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+    android:orientation="vertical"
+    android:background="@color/ic_launcher_background">
     <Button
         android:id="@+id/Add_Stream"
         android:text="Add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/Add_RecyclerView"
+        android:textStyle="bold"
+        android:backgroundTint="@color/purple_200"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:listitem="@layout/item_view"/>
+        android:layout_height="wrap_content"/>
+    <ImageView
+        android:src="@drawable/chat_logo_design"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
 </LinearLayout>

@@ -10,7 +10,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SmartAttendance">
         <activity
-            android:name=".fragment.AddSemFragment"
+            android:name=".activities.AddName"
+            android:exported="false" />
+        <activity
+            android:name=".activities.SemAdd"
+            android:exported="false" />
+        <activity
+            android:name=".activities.StreamAdd"
             android:exported="false" />
         <activity
             android:name=".activities.EditClass"

@@ -35,6 +35,9 @@ public class Attendance extends Fragment {
     private CardStackLayoutManager manager;
     private CardStackAdapter adapter;
 
+    public Attendance(String s) {
+    }
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_attendance__card, container, false);
