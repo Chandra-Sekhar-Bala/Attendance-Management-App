@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.smartattendance.R
 import com.example.smartattendance.databinding.ActivitySignupBinding
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -35,7 +36,7 @@ class SignupActivity : AppCompatActivity() {
 
         // lets make sign up process:
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-             .requestEmail()
+              .requestEmail()
             .build()
 
         // Build a GoogleSignInClient with the options specified by gso.
