@@ -9,14 +9,9 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.smartattendance.R
-import com.example.smartattendance.database.Sem.semAdapterClass
-import com.example.smartattendance.database.Sem.semDataClass
-import com.example.smartattendance.database.StreamAdapter
-import com.example.smartattendance.database.StreamData
 import com.example.smartattendance.database.student_name.stdAdapterClass
 import com.example.smartattendance.database.student_name.stdDataClass
 import com.google.firebase.database.*
-import kotlin.properties.Delegates
 
 class AddName : AppCompatActivity(),stdAdapterClass.stdItemCLicked{
     lateinit var stdName: EditText

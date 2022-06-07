@@ -8,9 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.smartattendance.R
 import com.example.smartattendance.activities.SemAdd
-import com.example.smartattendance.activities.StreamAdd
-import com.example.smartattendance.database.StreamAdapter
-import com.example.smartattendance.fragment.AddSemFragment
+import com.example.smartattendance.adapters.semDataClass
 
 class semAdapterClass(private val userList: ArrayList<semDataClass>, private val listener: SemAdd): RecyclerView.Adapter<semAdapterClass.MyViewHolder>() {
 

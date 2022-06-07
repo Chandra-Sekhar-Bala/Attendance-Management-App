@@ -9,9 +9,8 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.smartattendance.R
+import com.example.smartattendance.adapters.semDataClass
 import com.example.smartattendance.database.Sem.semAdapterClass
-import com.example.smartattendance.database.Sem.semDataClass
-import com.example.smartattendance.database.StreamAdapter
 import com.google.firebase.database.*
 
 class SemAdd :  AppCompatActivity(),semAdapterClass.semItemCLicked{

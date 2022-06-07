@@ -89,8 +89,4 @@ class SignupActivity : AppCompatActivity() {
 
     }
 
-    private fun updateUI(account: GoogleSignInAccount) {
-
-    }
-
 }
