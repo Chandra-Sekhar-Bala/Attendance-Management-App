@@ -38,24 +38,30 @@ class MainActivity : AppCompatActivity() {
                     "Database"
                 ).setActiveColor("#070565")
             )
-            .addItem(
-                BottomNavigationItem(
-                    R.drawable.profile_icon,
-                    "Profile"
-                ).setActiveColor("#0C099F")
-            )
             .initialise()
         if (savedInstanceState == null) {
+
+        }
+
+        val stream = intent.getStringExtra("streamName")
+        val sem = intent.getStringExtra("semName")
+
+        if(sem != null){
             fragmentManager.beginTransaction()
-                .replace(R.id.frameLayout, Attendance(""))
+                .replace(R.id.frameLayout, Attendance(stream,sem))
+                .commit()
+        }else{
+            fragmentManager.beginTransaction()
+                .replace(R.id.frameLayout, AddDbFragment())
                 .commit()
         }
+
         bottomNavigationBar.setTabSelectedListener(object :
             BottomNavigationBar.OnTabSelectedListener {
             override fun onTabSelected(position: Int) {
                 var fragment: Fragment? = null
                 when (position) {
-                    0 -> fragment = Attendance("")
+                    0 -> fragment = Attendance(stream,sem)
                     1 -> fragment = AddDbFragment()
                     2 -> fragment = Profile()
                 }
