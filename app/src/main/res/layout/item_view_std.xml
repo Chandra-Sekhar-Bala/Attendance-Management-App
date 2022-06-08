@@ -98,13 +98,6 @@
                         android:textSize="30dp" />
                 </LinearLayout>
             </LinearLayout>
-
-            <ImageButton
-                android:id="@+id/delete_item_std"
-                android:layout_width="387dp"
-                android:layout_height="wrap_content"
-                android:background="@color/purple_200"
-                android:src="@drawable/ic_baseline_delete_24_w" />
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>

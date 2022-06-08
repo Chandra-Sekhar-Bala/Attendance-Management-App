@@ -3,19 +3,27 @@ package com.example.smartattendance.activities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.smartattendance.R
+import com.example.smartattendance.database.Sem.semAdapterClass
+
+import com.example.smartattendance.database.StreamAdapter
+import com.example.smartattendance.database.StreamData
 import com.example.smartattendance.database.student_name.stdAdapterClass
 import com.example.smartattendance.database.student_name.stdDataClass
+import com.example.smartattendance.model.CardModel
 import com.google.firebase.database.*
+import kotlin.properties.Delegates
 
 class AddName : AppCompatActivity(),stdAdapterClass.stdItemCLicked{
     lateinit var stdName: EditText
-    lateinit var stdRoll: EditText
+    lateinit var stdRoll: TextView
     lateinit var stdPresent: EditText
     lateinit var addSdt: Button
     lateinit var startAttend: Button
@@ -23,10 +31,11 @@ class AddName : AppCompatActivity(),stdAdapterClass.stdItemCLicked{
     lateinit var firebaseDatabase: FirebaseDatabase
     lateinit var ref: DatabaseReference
     lateinit var ref2: DatabaseReference
-    lateinit var userArrayList: ArrayList<stdDataClass>
+    lateinit var userArrayList: ArrayList<CardModel>
     lateinit var adapter: stdAdapterClass
     lateinit var semName: String
     lateinit var streamName: String
+    var roll = 0
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,7 +44,6 @@ class AddName : AppCompatActivity(),stdAdapterClass.stdItemCLicked{
 
         stdName = findViewById(R.id.sdtName)
         stdRoll = findViewById(R.id.sdtRoll)
-        stdPresent = findViewById(R.id.sdtPresent)
         startAttend = findViewById(R.id.startAttendance)
         addSdt = findViewById(R.id.addStudent)
         userRecyclerView=findViewById(R.id.recyclerView)
@@ -46,29 +54,34 @@ class AddName : AppCompatActivity(),stdAdapterClass.stdItemCLicked{
         streamName = intent.getStringExtra("streamName").toString()
         data()
         addSdt.setOnClickListener() {
-            if (stdName.text.isNotEmpty() && stdRoll.text.isNotEmpty()) {
+
+
+            if (stdName.text.isNotEmpty() ) {
+
+
+                val cardObj = CardModel(stdName.text.toString(),stdRoll.text.toString(),semName,null,0)
+
                 ref.child("user_Email").child(streamName).child("semID").child(semName)
                     .child("nameId").child(stdRoll.text.toString()).child("roll")
                     .setValue(stdRoll.text.toString())
                 ref.child("user_Email").child(streamName).child("semID").child(semName)
                     .child("nameId").child(stdRoll.text.toString()).child("name")
                     .setValue(stdName.text.toString())
+                ref.child("user_Email").child(streamName).child("semID").child(semName)
+                    .child("nameId").child(stdRoll.text.toString()).child("present")
+                    .setValue(0)
 
-                if (stdPresent.text.isEmpty()) {
-                    ref.child("user_Email").child(streamName).child("semID").child(semName)
-                        .child("nameId").child(stdRoll.text.toString()).child("Present")
-                        .setValue("0")
-                }
-                else {
-                    ref.child("user_Email").child(streamName).child("semID").child(semName)
-                        .child("nameId").child(stdRoll.text.toString()).child("Present")
-                        .setValue(stdPresent.text.toString())
-                }
+                ref.child("user_Email").child(streamName).child("semID").child(semName)
+                    .child("nameId").child(stdRoll.text.toString()).setValue(cardObj)
+
             } else {
                 Toast.makeText(this, "enter the name and roll", Toast.LENGTH_SHORT).show()
             }
             data()
+            stdName.text.clear()
         }
+
+
         startAttend.setOnClickListener {
             val intent=Intent(this,MainActivity::class.java)
             intent.putExtra("Stream",streamName)
@@ -77,6 +90,16 @@ class AddName : AppCompatActivity(),stdAdapterClass.stdItemCLicked{
         }
 
     }
+
+    private fun validteData(): Boolean {
+        if (stdName.text.isNotEmpty() && stdRoll.text.isNotEmpty()) {
+
+        }
+
+        return false
+
+    }
+
     private fun data() {
         userRecyclerView.layoutManager= LinearLayoutManager(this)
         userRecyclerView.setHasFixedSize(true)
@@ -99,10 +122,14 @@ class AddName : AppCompatActivity(),stdAdapterClass.stdItemCLicked{
                     if (snapshot.exists()){
                         for(userSnapshot in snapshot.children){
 
-                            val user=userSnapshot.getValue(stdDataClass::class.java)
+                            val user=userSnapshot.getValue(CardModel::class.java)
                             userArrayList.add(user!!)
 
+                            Log.e("LAWRA","From activity: "+user.present.toString())
+                            roll = user.roll!!.toInt()
                         }
+                        roll++
+                        stdRoll.text = roll.toString()
 
                         userRecyclerView.adapter= stdAdapterClass(userArrayList,this@AddName)
                     }
@@ -137,12 +164,9 @@ class AddName : AppCompatActivity(),stdAdapterClass.stdItemCLicked{
 //        }
     }
 
-    override fun onDeleteClicked(itemCLicked: String?) {
-        ref.child("user_Email").child(streamName).child("semID")
-            .child(semName).child("nameId").child(itemCLicked!!).removeValue()
-
-        Toast.makeText(this," the delete button click $itemCLicked",Toast.LENGTH_SHORT).show()
-        data()
+    override fun onItemCLickedStd(itemCLicked: String?) {
+        TODO("Not yet implemented")
     }
+
 
 }

@@ -2,6 +2,7 @@ package com.example.smartattendance.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import com.example.smartattendance.R
 import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
@@ -39,13 +40,11 @@ class MainActivity : AppCompatActivity() {
                 ).setActiveColor("#070565")
             )
             .initialise()
-        if (savedInstanceState == null) {
 
-        }
+        val stream = intent.getStringExtra("Stream")
+        val sem = intent.getStringExtra("Sem")
 
-        val stream = intent.getStringExtra("streamName")
-        val sem = intent.getStringExtra("semName")
-
+        Log.e("Checking","value of sem is: "+sem)
         if(sem != null){
             fragmentManager.beginTransaction()
                 .replace(R.id.frameLayout, Attendance(stream,sem))

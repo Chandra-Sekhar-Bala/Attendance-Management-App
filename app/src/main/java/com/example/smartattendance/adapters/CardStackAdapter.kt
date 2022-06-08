@@ -16,7 +16,10 @@ import android.widget.ImageView
 import android.widget.TextView
 
 class CardStackAdapter(var items: List<CardModel>, var context: Context) :
+
     RecyclerView.Adapter<CardStackAdapter.ViewHolder>() {
+
+    public var adpt_position = 0
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)
         val view = inflater.inflate(R.layout.item_card, parent, false)
@@ -25,23 +28,25 @@ class CardStackAdapter(var items: List<CardModel>, var context: Context) :
 
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-
+        adpt_position = position
 //        Glide.with(context)
 //                .load(items.get(position).getImage().replace("http","https"))
 //                .placeholder(R.drawable.default_profile)
 //                .into(holder.image);
-        Glide.with(context).load(items[position].image!!.replace("http", "https"))
-            .placeholder(R.drawable.default_profile).disallowHardwareConfig().into(holder.image)
-        val policy = ThreadPolicy.Builder().permitAll().build()
-        StrictMode.setThreadPolicy(policy)
-        Log.e("Imag", "IMG: " + items[position].image)
+
+        Log.e("LAWRA2",items.toString())
+//        Glide.with(context).load(items[position].image!!.replace("http", "https"))
+//            .placeholder(R.drawable.default_profile).disallowHardwareConfig().into(holder.image)
         holder.name.text = items[position].name
         holder.stream.text = items[position].sem
         holder.roll.text = "Roll: " + items[position].roll
+
+
     }
 
     override fun getItemCount(): Int {
         return items.size
+
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -60,4 +65,10 @@ class CardStackAdapter(var items: List<CardModel>, var context: Context) :
             roll = itemView.findViewById(R.id.item_roll)
         }
     }
+
+    interface onItemSwipped{
+     fun whichItem(pos : Int)
+    }
+
+
 }
