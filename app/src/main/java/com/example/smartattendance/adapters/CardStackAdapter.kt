@@ -35,8 +35,7 @@ class CardStackAdapter(var items: List<CardModel>, var context: Context) :
 //                .into(holder.image);
 
         Log.e("LAWRA2",items.toString())
-//        Glide.with(context).load(items[position].image!!.replace("http", "https"))
-//            .placeholder(R.drawable.default_profile).disallowHardwareConfig().into(holder.image)
+        Glide.with(context).load("").placeholder(R.drawable.default_profile).disallowHardwareConfig().into(holder.image)
         holder.name.text = items[position].name
         holder.stream.text = items[position].sem
         holder.roll.text = "Roll: " + items[position].roll

@@ -8,6 +8,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.smartattendance.R
 import com.example.smartattendance.activities.StreamAdd
+import com.example.smartattendance.database.pre.preDataClass
+import com.example.smartattendance.database.student_name.stdDataClass
+import java.util.stream.Stream
 
 class StreamAdapter(private var userList: ArrayList<StreamData>, private val listener: StreamAdd): RecyclerView.Adapter<StreamAdapter.MyViewHolder>() {
 

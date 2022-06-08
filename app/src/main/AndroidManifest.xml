@@ -12,10 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SmartAttendance">
         <activity
-            android:name=".PresentStd"
-            android:exported="false" />
-        <activity
-            android:name=".activities.ppTest"
+            android:name=".activities.stdDate"
             android:exported="false" />
         <activity
             android:name=".activities.AddName"
@@ -37,7 +34,10 @@
             android:exported="false" />
         <activity
             android:name=".activities.SignupActivity"
-            android:exported="false"></activity>
+            android:exported="false">
+
+
+        </activity>
         <activity
             android:name=".activities.MainActivity"
             android:exported="true">
@@ -46,6 +46,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
     </application>
 

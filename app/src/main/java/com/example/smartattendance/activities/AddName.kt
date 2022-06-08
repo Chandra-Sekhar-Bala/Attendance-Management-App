@@ -165,7 +165,7 @@ class AddName : AppCompatActivity(),stdAdapterClass.stdItemCLicked{
     }
 
     override fun onItemCLickedStd(itemCLicked: String?) {
-        TODO("Not yet implemented")
+
     }
 
 
