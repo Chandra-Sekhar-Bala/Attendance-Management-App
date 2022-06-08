@@ -63,7 +63,6 @@ class MainActivity : AppCompatActivity() {
                 when (position) {
                     0 -> fragment = Attendance(stream,sem)
                     1 -> fragment = AddDbFragment()
-                    2 -> fragment = Profile()
                 }
                 if (fragment != null) {
                     fragmentManager.beginTransaction()

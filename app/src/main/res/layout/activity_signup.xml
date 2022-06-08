@@ -34,6 +34,7 @@
             android:src="@drawable/vector"/>
 
         <TextView
+            android:visibility="gone"
             android:id="@+id/GoogleAccount"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
@@ -52,6 +53,7 @@
             android:gravity="center"
             android:text="@string/email_text"
             android:layout_marginTop="16dp"
+            android:visibility="gone"
             android:textSize="16sp"
             android:textStyle="bold"
             app:drawableStartCompat="@drawable/email_icon"
@@ -65,11 +67,79 @@
             android:text="@string/guest_text"
             android:layout_marginTop="16dp"
             android:textSize="16sp"
+            android:visibility="gone"
             android:textStyle="bold"
             app:drawableStartCompat="@drawable/person_icon"
             android:paddingHorizontal="18dp"
             android:paddingVertical="10dp"
             android:elevation="4dp"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/guest_text"
+            android:textSize="16sp"
+            android:layout_marginTop="10dp"
+            android:textStyle="bold"
+            android:hint="Email"
+            android:inputType="textEmailAddress"
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/email_id"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp"
+                android:drawableStart="@drawable/email_icon"
+                android:drawablePadding="10dp"
+                />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/guest_text"
+            android:textSize="16sp"
+            android:layout_marginTop="10dp"
+            android:textStyle="bold"
+            android:hint="Password"
+
+            >
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/password"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp"
+                android:drawableStart="@drawable/password"
+                android:drawablePadding="10dp"
+                android:inputType="textPassword"
+                />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/Login_btn"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Login "
+            android:textAllCaps="false"
+            android:textSize="18sp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/signup_btn"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Sign Up "
+            android:textAllCaps="false"
+            android:textSize="18sp" />
+
+
     </LinearLayout>
 
 
@@ -84,4 +154,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:visibility="gone"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
