@@ -35,15 +35,16 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
+        android:id="@+id/noDataArrow"
         android:layout_width="156dp"
         android:layout_height="153dp"
         android:src="@drawable/ic_arrow_downward_black_24dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.172"
+        app:layout_constraintHorizontal_bias="0.89"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/noData"
-        app:layout_constraintVertical_bias="0.57"
+        app:layout_constraintVertical_bias="0.608"
         app:tint="@color/DeepGrey" />
 
 

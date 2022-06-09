@@ -1,25 +1,19 @@
 package com.example.smartattendance.activities
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.smartattendance.R
-import com.example.smartattendance.database.Sem.semAdapterClass
-
-import com.example.smartattendance.database.StreamAdapter
-import com.example.smartattendance.database.StreamData
 import com.example.smartattendance.database.student_name.stdAdapterClass
-import com.example.smartattendance.database.student_name.stdDataClass
 import com.example.smartattendance.model.CardModel
 import com.google.firebase.database.*
-import kotlin.properties.Delegates
 
 class AddName : AppCompatActivity(),stdAdapterClass.stdItemCLicked{
     lateinit var stdName: EditText
@@ -87,6 +81,7 @@ class AddName : AppCompatActivity(),stdAdapterClass.stdItemCLicked{
             intent.putExtra("Stream",streamName)
             intent.putExtra("Sem",semName)
             startActivity(intent)
+            finish()
         }
 
     }

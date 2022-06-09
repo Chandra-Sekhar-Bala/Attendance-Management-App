@@ -29,14 +29,17 @@ class MainActivity : AppCompatActivity() {
             .setActiveColor("#FFFFFF")
             .setInActiveColor("#353b48")
 
-        val stream = intent.getStringExtra("Stream")
-        val sem = intent.getStringExtra("Sem")
+        var stream = intent.getStringExtra("Stream")
+        var sem = intent.getStringExtra("Sem")
 
         if(sem != null){
             setTab(0)
             fragmentManager.beginTransaction()
                 .replace(R.id.frameLayout, Attendance(stream,sem))
                 .commit()
+            stream = null
+            sem = null
+
         }else{
             setTab(1)
             fragmentManager.beginTransaction()

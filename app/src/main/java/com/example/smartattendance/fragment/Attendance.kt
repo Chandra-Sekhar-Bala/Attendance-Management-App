@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.LinearInterpolator
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
@@ -34,8 +35,9 @@ class Attendance(val stream: String?,val sem: String?) : Fragment() {
     private val list = ArrayList<CardModel>()
     private lateinit var cardStackView : CardStackView
     private var roll = 0
-    var total = 0
     lateinit var noData: TextView
+    lateinit var noDataArrow: ImageView
+    var total = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -51,14 +53,17 @@ class Attendance(val stream: String?,val sem: String?) : Fragment() {
     private fun init(root: View) {
 
         noData = root.findViewById(R.id.noData)
+        noDataArrow = root.findViewById(R.id.noDataArrow)
         cardStackView = root.findViewById(R.id.card_stack_view)
 
         if(stream == null){
             noData.visibility = View.VISIBLE
+            noDataArrow.visibility = View.VISIBLE
             cardStackView.visibility = View.GONE
         }else{
             cardStackView.visibility = View.VISIBLE
             noData.visibility = View.GONE
+            noDataArrow.visibility = View.GONE
         }
 
         val sh = requireActivity().getSharedPreferences("UserID", Context.MODE_PRIVATE)
@@ -78,12 +83,21 @@ class Attendance(val stream: String?,val sem: String?) : Fragment() {
 
             @RequiresApi(Build.VERSION_CODES.O)
             override fun onCardSwiped(direction: Direction) {
+
+                if(total == 0){
+                    total = adapter!!.itemCount
+                }
+                total--
+
+                Log.e("TOTAL", "Adapter: "+ adapter!!.itemCount  + " total is "+total)
+
                 val curent = list[roll]
                 ++roll
                 val dateb=LocalDate.now().toString()
+
                 Log.d(TAG, "onCardSwiped: p=" + manager!!.topPosition + " d=" + direction)
                 if (direction == Direction.Right) {
-                    var p = curent.present?.toInt()
+                    var p = curent.present
                     p= p!! +1
                     ref.child("user_Email").child(stream!!).child("semID").child(sem!!)
                         .child("nameId").child(curent.roll.toString()).child("present")
@@ -123,6 +137,14 @@ class Attendance(val stream: String?,val sem: String?) : Fragment() {
                 if (manager!!.topPosition == adapter!!.itemCount - 5) {
                     paginate()
                 }
+
+                if(total == 0){
+                    list.clear()
+                    setAdapter()
+                    noData.visibility = View.VISIBLE
+                    noDataArrow.visibility = View.VISIBLE
+                    cardStackView.visibility = View.GONE
+                }
             }
 
             override fun onCardRewound() {
@@ -142,6 +164,7 @@ class Attendance(val stream: String?,val sem: String?) : Fragment() {
                 val tv = view.findViewById<TextView>(R.id.item_name)
                 Log.d(TAG, "onCardAppeared: " + position + ", nama: " + tv.text)
             }
+
         })
         manager!!.setStackFrom(StackFrom.None)
         manager!!.setVisibleCount(3)
@@ -156,6 +179,17 @@ class Attendance(val stream: String?,val sem: String?) : Fragment() {
 
     }
 
+    private fun setAdapter() {
+        try {
+            adapter = CardStackAdapter(list, requireContext())
+            cardStackView.layoutManager = manager
+            cardStackView.adapter = adapter
+            cardStackView.itemAnimator = DefaultItemAnimator()
+        }catch (e : Exception){
+            Log.e("TAGTAG",e.message.toString())
+        }
+    }
+
     private fun prepareData() {
         ref2 = firebaseDatabase.getReference("BIMS").child("user_Email")
             .child(stream.toString()).child("semID").child(sem.toString())
@@ -167,17 +201,8 @@ class Attendance(val stream: String?,val sem: String?) : Fragment() {
                     for ( snap in snapshot.children) {
                         val data = snap.getValue(CardModel::class.java)
                         list.add(data!!)
-                        ++total
                     }
-                    try {
-                        adapter = CardStackAdapter(list, requireContext())
-                        cardStackView.layoutManager = manager
-                        cardStackView.adapter = adapter
-                        cardStackView.itemAnimator = DefaultItemAnimator()
-                    }catch (e : Exception){
-                        Log.e("TAGTAG",e.message.toString())
-                    }
-
+                    setAdapter()
                 }
             }
             override fun onCancelled(error: DatabaseError) {
@@ -189,20 +214,17 @@ class Attendance(val stream: String?,val sem: String?) : Fragment() {
 
     private fun paginate() {
         val old = adapter!!.items
-        val latest: List<CardModel> = ArrayList(addList())
+        val latest: List<CardModel> = ArrayList(list)
         val callback = CardStackCallback(old, latest)
         val hasil = DiffUtil.calculateDiff(callback)
         adapter!!.items = latest
+
         hasil.dispatchUpdatesTo(adapter!!)
     }
 
     private fun addList(): List<CardModel> {
 
-
-
         val items: MutableList<CardModel> = ArrayList()
-
-
 
         return items
     }
