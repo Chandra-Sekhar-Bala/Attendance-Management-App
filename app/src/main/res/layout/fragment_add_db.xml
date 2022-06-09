@@ -28,6 +28,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="enter the Stream"
+            android:focusedByDefault="false"
+            android:focusableInTouchMode="true"
             android:textColor="@color/black"
             android:textColorHint="@color/black" />
     </androidx.cardview.widget.CardView>

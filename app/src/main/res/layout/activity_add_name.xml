@@ -50,6 +50,8 @@
         android:hint="enter the name of student"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:focusedByDefault="false"
+        android:focusableInTouchMode="true"
         android:layout_margin="5dp"/>
     </LinearLayout>
     </androidx.cardview.widget.CardView>

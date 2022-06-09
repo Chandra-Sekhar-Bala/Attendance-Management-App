@@ -26,8 +26,7 @@ class semAdapterClass(private val userList: ArrayList<semDataClass>, private val
         val currentItem=userList[position]
         holder.semD.text=currentItem.sem
         holder.deleteButton.setOnClickListener {
-            listener.onDeleteClicked(currentItem.sem)
-            removeItem(position)
+            listener.onDeleteClicked(currentItem.sem, position)
         }
     }
 
@@ -39,12 +38,9 @@ class semAdapterClass(private val userList: ArrayList<semDataClass>, private val
         val semD: TextView = itemView.findViewById(R.id.item)
         val deleteButton: ImageView =itemView.findViewById(R.id.delete_item)
     }
-    private fun removeItem(position: Int){
-        userList.removeAt(position)
 
-    }
     interface semItemCLicked {
         fun onItemCLicked(item:String)
-        fun onDeleteClicked(itemCLicked: String?)
+        fun onDeleteClicked(itemCLicked: String?,position: Int)
     }
 }
