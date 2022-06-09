@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
@@ -32,6 +33,7 @@ class AddDbFragment : Fragment(), AddDBAdapterClass.StreamItemCLicked {
     lateinit var adapter: AddDBAdapterClass
     lateinit var email: String
     lateinit var user_str_item: EditText
+    lateinit var progressBar: ProgressBar
 
 
     override fun onCreateView(
@@ -51,9 +53,11 @@ class AddDbFragment : Fragment(), AddDBAdapterClass.StreamItemCLicked {
         userRecyclerView = view.findViewById(R.id.rr)
         val sh = requireActivity().getSharedPreferences("UserID", Context.MODE_PRIVATE)
         email = sh.getString("id", "")!!
-        data()
+
         addStreamData = view.findViewById(R.id.Add_Stream)
         user_str_item = view.findViewById(R.id.user_str_item)
+        progressBar = view.findViewById(R.id.progressbar2)
+        data()
     }
 
     override fun onResume() {
@@ -68,7 +72,6 @@ class AddDbFragment : Fragment(), AddDBAdapterClass.StreamItemCLicked {
                 data()
             }
         }
-
 
     }
 
@@ -95,7 +98,7 @@ class AddDbFragment : Fragment(), AddDBAdapterClass.StreamItemCLicked {
                         val user = userSnapshot.getValue(addDBDataClass::class.java)
                         userArrayList.add(user!!)
                     }
-
+                    progressBar.visibility = View.GONE
                     adapter = AddDBAdapterClass(userArrayList, this@AddDbFragment)
                 }
             }

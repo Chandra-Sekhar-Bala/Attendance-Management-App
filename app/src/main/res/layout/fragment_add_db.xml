@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
@@ -8,38 +8,62 @@
     android:layout_margin="10dp"
     android:orientation="vertical"
     android:background="@color/ic_launcher_background">
+
     <androidx.cardview.widget.CardView
+        android:id="@+id/cardView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardElevation="10dp"
-        app:cardCornerRadius="5dp"
         app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="5dp"
+        app:cardElevation="10dp"
         app:cardMaxElevation="12dp"
         app:cardPreventCornerOverlap="true"
         app:cardUseCompatPadding="true"
-        >
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
         <EditText
             android:id="@+id/user_str_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:hint="enter the Stream"
             android:textColor="@color/black"
-            android:layout_width="match_parent"
-            android:textColorHint="@color/black"
-            android:layout_height="wrap_content"
-            />
+            android:textColorHint="@color/black" />
     </androidx.cardview.widget.CardView>
 
     <Button
-        android:layout_marginLeft="10dp"
         android:id="@+id/Add_Stream"
-        android:text="Add Stream"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/purple_200"
+        android:text="Add Stream"
         android:textStyle="bold"
-        android:backgroundTint="@color/purple_200"/>
+        android:layout_marginStart="10dp"
+        app:layout_constraintStart_toStartOf="@+id/cardView2"
+        app:layout_constraintTop_toBottomOf="@+id/cardView2" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rr"
-        tools:listitem="@layout/item_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Add_Stream"
+        app:layout_constraintVertical_bias="0.0"
+        tools:listitem="@layout/item_view" />
 
-</LinearLayout>
+    <ProgressBar
+        android:id="@+id/progressbar2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|center_vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.433" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
