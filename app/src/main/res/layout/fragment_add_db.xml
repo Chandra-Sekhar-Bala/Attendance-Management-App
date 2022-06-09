@@ -3,17 +3,39 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:textColor="@color/white"
     android:layout_margin="10dp"
     android:orientation="vertical"
     android:background="@color/ic_launcher_background">
-    <Button
-        android:id="@+id/Add_Stream"
-        android:text="Add"
-        android:textStyle="bold"
-        android:backgroundTint="@color/purple_200"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        app:cardElevation="10dp"
+        app:cardCornerRadius="5dp"
+        app:cardBackgroundColor="@color/white"
+        app:cardMaxElevation="12dp"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true"
+        >
+        <EditText
+            android:id="@+id/user_str_item"
+            android:hint="enter the Stream"
+            android:textColor="@color/black"
+            android:layout_width="match_parent"
+            android:textColorHint="@color/black"
+            android:layout_height="wrap_content"
+            />
+    </androidx.cardview.widget.CardView>
+
+    <Button
+        android:layout_marginLeft="10dp"
+        android:id="@+id/Add_Stream"
+        android:text="Add Stream"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:backgroundTint="@color/purple_200"/>
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rr"
         tools:listitem="@layout/item_view"

@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -32,6 +33,7 @@ class AddDbFragment : Fragment(), AddDBAdapterClass.StreamItemCLicked{
     lateinit var userArrayList: ArrayList<addDBDataClass>
     lateinit var adapter: AddDBAdapterClass
     lateinit var email:String
+    lateinit var user_str_item:EditText
 
 
     override fun onCreateView(
@@ -48,20 +50,24 @@ class AddDbFragment : Fragment(), AddDBAdapterClass.StreamItemCLicked{
         database = FirebaseDatabase.getInstance()
         myRef = database.getReference("BIMS")
         myRef2 = database.getReference("BIMS")
-        addStreamData=view.findViewById(R.id.Add_Stream)
         userRecyclerView=view.findViewById(R.id.rr)
         val sh =  requireActivity().getSharedPreferences("UserID", Context.MODE_PRIVATE)
         email = sh.getString("id", "")!!
         data()
+        addStreamData=view.findViewById(R.id.Add_Stream)
+        user_str_item=view.findViewById(R.id.user_str_item)
     }
     override fun onResume() {
 
         super.onResume()
-        addStreamData.setOnClickListener(){
+        addStreamData.setOnClickListener {
+            if (user_str_item.text.isNotEmpty()){
 
-            val intent=Intent(context,StreamAdd::class.java)
-            startActivity(intent)
+                myRef.child(email).child(user_str_item.text.toString()).child("StreamName")
+                    .setValue(user_str_item.text.toString())
 
+                data()
+            }
         }
 
 
