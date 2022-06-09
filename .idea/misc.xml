@@ -3,6 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Attendance-Management-App/app/src/main/res/layout/activity_stream_add.xml" value="0.25416666666666665" />
+        <entry key="..\:/Attendance-Management-App/app/src/main/res/layout/database_prac.xml" value="0.25416666666666665" />
+        <entry key="..\:/Attendance-Management-App/app/src/main/res/layout/fragment_add_db.xml" value="0.25416666666666665" />
         <entry key="..\:/Attendance-Management2/Attendance-Management-App/app/src/main/res/drawable/ic_baseline_delete_24.xml" value="0.1675" />
         <entry key="..\:/Attendance-Management2/Attendance-Management-App/app/src/main/res/layout/activity_add_name.xml" value="0.25416666666666665" />
         <entry key="..\:/Attendance-Management2/Attendance-Management-App/app/src/main/res/layout/activity_add_sem_fragment.xml" value="0.25416666666666665" />

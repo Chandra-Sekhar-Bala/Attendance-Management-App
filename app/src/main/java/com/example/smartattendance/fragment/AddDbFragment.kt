@@ -1,35 +1,44 @@
 package com.example.smartattendance.fragment
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.smartattendance.R
+import com.example.smartattendance.activities.SemAdd
 import com.example.smartattendance.activities.StreamAdd
+import com.example.smartattendance.database.AddDBAdapterClass
+import com.example.smartattendance.database.addDBDataClass
+import com.google.android.gms.common.api.internal.StatusExceptionMapper
 import com.google.firebase.database.*
 
 
-class AddDbFragment : Fragment() {
+class AddDbFragment : Fragment(), AddDBAdapterClass.StreamItemCLicked{
 
     lateinit var database: FirebaseDatabase
     lateinit var myRef: DatabaseReference
     lateinit var myRef2: DatabaseReference
     lateinit var myRef3: DatabaseReference
     lateinit var addStreamData: Button
-//    lateinit var userStreamName: EditText
     lateinit var userRecyclerView: RecyclerView
-//    lateinit var userArrayList: ArrayList<streamDataClass>
-//    lateinit var adapter: streamAdapterClass
+    lateinit var userArrayList: ArrayList<addDBDataClass>
+    lateinit var adapter: AddDBAdapterClass
+    lateinit var email:String
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_add_db, container, false)
     }
@@ -40,10 +49,10 @@ class AddDbFragment : Fragment() {
         myRef = database.getReference("BIMS")
         myRef2 = database.getReference("BIMS")
         addStreamData=view.findViewById(R.id.Add_Stream)
-
-
-
-
+        userRecyclerView=view.findViewById(R.id.rr)
+        val sh =  requireActivity().getSharedPreferences("UserID", Context.MODE_PRIVATE)
+        email = sh.getString("id", "")!!
+        data()
     }
     override fun onResume() {
 
@@ -60,72 +69,71 @@ class AddDbFragment : Fragment() {
 
    
 
-//    private fun data() {
-//        userRecyclerView.layoutManager= LinearLayoutManager(context)
-//        userRecyclerView.setHasFixedSize(true)
-//
-//        userArrayList= arrayListOf()
-//
-//        removeUserData()
-//        getUserData()
-//    }
+    private fun data() {
+        userRecyclerView.layoutManager= LinearLayoutManager(context)
+        userRecyclerView.setHasFixedSize(true)
 
-//    private fun getUserData() {
-//        myRef2 = database.getReference("BIMS").child("user_Email")
-//
-//        myRef2.addValueEventListener(object : ValueEventListener {
-//
-//            override fun onDataChange(snapshot: DataSnapshot) {
-//                if (snapshot.exists()){
-//                    for(userSnapshot in snapshot.children){
-//
-//                        val user=userSnapshot.getValue(streamDataClass::class.java)
-//                        userArrayList.add(user!!)
-//                    }
-//
-//                    adapter= streamAdapterClass(userArrayList,this@AddDbFragment)
-//                }
-//            }
-//
-//            override fun onCancelled(error: DatabaseError) {
-//                TODO("Not yet implemented")
-//            }
-//
-//        })
-//    }
-//    private fun removeUserData() {
-//        myRef2 =  database.getReference("BIMS").child("user_Email").child("StreamName")
+        userArrayList= arrayListOf()
 
-//        myRef2.addValueEventListener(object : ValueEventListener {
-//
-//            override fun onDataChange(snapshot: DataSnapshot) {
-//
-//                userArrayList.clear()
-////                adapter = streamAdapterClass(userArrayList,this@AddDbFragment)
-//                userRecyclerView.adapter = adapter
-//            }
-//
-//            override fun onCancelled(error: DatabaseError) {
-//                TODO("Not yet implemented")
-//            }
-//        })
-//        fun onClick(position: Int) {
-//            Toast.makeText(context, "onClick $position", Toast.LENGTH_LONG).show()
-//        }
-//    }
+        removeUserData()
+        getUserData()
+    }
 
-//    override fun onItemCLicked(item: String) {
-//
-////        Toast.makeText(context, "CLicked item $item", Toast.LENGTH_SHORT).show()
-//
-//        val nextFrag = AddSemFragment()
-//        val bundle = Bundle()
-//        bundle.putString("key", item)
-//        nextFrag.arguments = bundle
-//        requireActivity().supportFragmentManager.beginTransaction()
-//            .replace(R.id.frameLayout, nextFrag, "NewFragment")
-//            .addToBackStack(null)
-//            .commit()
-//    }
+    private fun getUserData() {
+        myRef2 = database.getReference("BIMS").child(email)
+
+        myRef2.addValueEventListener(object : ValueEventListener {
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (snapshot.exists()){
+                    for(userSnapshot in snapshot.children){
+
+                        val user=userSnapshot.getValue(addDBDataClass::class.java)
+                        userArrayList.add(user!!)
+                    }
+
+                    adapter= AddDBAdapterClass(userArrayList,this@AddDbFragment)
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+
+        })
+    }
+    private fun removeUserData() {
+        myRef2 =  database.getReference("BIMS").child(email).child("StreamName")
+
+        myRef2.addValueEventListener(object : ValueEventListener {
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+
+                userArrayList.clear()
+                adapter = AddDBAdapterClass(userArrayList,this@AddDbFragment)
+                userRecyclerView.adapter = adapter
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                TODO("Not yet implemented")
+            }
+        })
+        fun onClick(position: Int) {
+            Toast.makeText(context, "onClick $position", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    override fun onItemCLicked(item: String) {
+
+        Toast.makeText(context, "CLicked item $item", Toast.LENGTH_SHORT).show()
+
+        val intent=Intent(context,SemAdd::class.java)
+        intent.putExtra("StrName",item)
+        startActivity(intent)
+    }
+
+    override fun onDeleteClicked(itemCLicked: String?) {
+        TODO("Not yet implemented")
+    }
 
 }
