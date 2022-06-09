@@ -3,15 +3,21 @@ package com.example.smartattendance.activities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.smartattendance.R
 import com.example.smartattendance.adapters.semDataClass
 import com.example.smartattendance.database.Sem.semAdapterClass
 import com.google.firebase.database.*
+import java.text.FieldPosition
 
 class SemAdd :  AppCompatActivity(),semAdapterClass.semItemCLicked{
     lateinit var email:String
@@ -24,6 +30,7 @@ class SemAdd :  AppCompatActivity(),semAdapterClass.semItemCLicked{
     lateinit var userArrayList:ArrayList<semDataClass>
     lateinit var adapter: semAdapterClass
     lateinit var StreamName:String
+    lateinit var progressBar : ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,6 +39,9 @@ class SemAdd :  AppCompatActivity(),semAdapterClass.semItemCLicked{
         SemName=findViewById(R.id.AddSemText)
         SemAddButton=findViewById(R.id.AddSemButton)
         userRecyclerView=findViewById(R.id.recyclerView)
+        progressBar=findViewById(R.id.progressbar3)
+
+
         firebaseDatabase= FirebaseDatabase.getInstance()
         ref=firebaseDatabase.getReference("BIMS")
         ref2=firebaseDatabase.getReference("BIMS")
@@ -61,7 +71,7 @@ class SemAdd :  AppCompatActivity(),semAdapterClass.semItemCLicked{
         getUserData()
     }
     private fun getUserData() {
-
+        Log.e("TAGTAG","Okea called: ")
         ref2 = firebaseDatabase.getReference("BIMS").child(email).child(StreamName)
             .child("semID")
 
@@ -74,10 +84,11 @@ class SemAdd :  AppCompatActivity(),semAdapterClass.semItemCLicked{
 
                         val user=userSnapshot.getValue(semDataClass::class.java)
                         userArrayList.add(user!!)
-
                     }
-
+                    progressBar.visibility = View.GONE
                     userRecyclerView.adapter= semAdapterClass(userArrayList,this@SemAdd)
+                }else{
+                    progressBar.visibility = View.GONE
                 }
             }
 
@@ -105,9 +116,6 @@ class SemAdd :  AppCompatActivity(),semAdapterClass.semItemCLicked{
                 TODO("Not yet implemented")
             }
         })
-//        fun onClick(position: Int) {
-//            Toast.makeText(this, "onClick $position", Toast.LENGTH_LONG).show()
-//        }
     }
 
     override fun onItemCLicked(item: String) {
@@ -116,12 +124,30 @@ class SemAdd :  AppCompatActivity(),semAdapterClass.semItemCLicked{
         intent.putExtra("streamName",StreamName)
         startActivity(intent)
 
-        Toast.makeText(this,"item click $item",Toast.LENGTH_SHORT).show()
     }
 
-    override fun onDeleteClicked(itemCLicked: String?) {
-        ref.child(email).child(StreamName).child("semID").child(itemCLicked.toString()).removeValue()
-        Toast.makeText(this," the delete button click $itemCLicked",Toast.LENGTH_SHORT).show()
-        data()
+    override fun onDeleteClicked(itemCLicked: String?, position: Int) {
+
+        val builder: AlertDialog.Builder = AlertDialog.Builder(this@SemAdd)
+
+        builder.setTitle("Delete sem/sec!")
+        builder.setMessage("Are you sure, you want to delete this sem/sec?")
+
+        builder.setPositiveButton(
+            "YES"
+        ) { dialog, _ -> // Delete data from firebase
+
+            ref.child(email).child(StreamName).child("semID").child(itemCLicked.toString()).removeValue()
+            data()
+            adapter.notifyItemRemoved(position)
+            dialog.dismiss()
+        }
+        builder.setNegativeButton(
+            "NO"
+        ) { dialog, _ -> // Do nothing
+            dialog.dismiss()
+        }
+        val alert: AlertDialog = builder.create()
+        alert.show()
     }
 }
