@@ -14,6 +14,7 @@ import com.example.smartattendance.database.StreamData
 import com.google.firebase.database.*
 
 class StreamAdd : AppCompatActivity(), StreamAdapter.StreamItemCLicked{
+    lateinit var email:String
     lateinit var user_str_item:EditText
     lateinit var Add_Str:Button
     lateinit var firebaseDatabase:FirebaseDatabase
@@ -25,6 +26,8 @@ class StreamAdd : AppCompatActivity(), StreamAdapter.StreamItemCLicked{
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_stream_add)
+        val sh = getSharedPreferences("UserID", MODE_PRIVATE);
+        email = sh.getString("id", "")!!
 
         userRecyclerView=findViewById(R.id.Add_RecyclerView_str)
         user_str_item=findViewById(R.id.user_str_item)
@@ -38,10 +41,9 @@ class StreamAdd : AppCompatActivity(), StreamAdapter.StreamItemCLicked{
         Add_Str.setOnClickListener(){
             if (user_str_item.text.isNotEmpty()){
 
-                ref.child("user_Email").child(user_str_item.text.toString()).child("StreamName")
+                ref.child(email).child(user_str_item.text.toString()).child("StreamName")
                     .setValue(user_str_item.text.toString())
-//                ref.child("user_Email").child(user_str_item.text.toString()).child("StreamName")
-//                    .setValue(user_str_item.text.toString())
+
                 data()
             }
         }
@@ -58,7 +60,7 @@ class StreamAdd : AppCompatActivity(), StreamAdapter.StreamItemCLicked{
         getUserData()
     }
     private fun getUserData() {
-        Ref2 = firebaseDatabase.getReference("BIMS").child("user_Email")
+        Ref2 = firebaseDatabase.getReference("BIMS").child(email)
 
         Ref2.addValueEventListener(object : ValueEventListener {
 
@@ -83,7 +85,7 @@ class StreamAdd : AppCompatActivity(), StreamAdapter.StreamItemCLicked{
         })
     }
     private fun removeUserData() {
-        Ref2 = firebaseDatabase.getReference("BIMS").child("user_Email")
+        Ref2 = firebaseDatabase.getReference("BIMS").child(email)
 
         Ref2.addValueEventListener(object : ValueEventListener {
 

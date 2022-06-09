@@ -121,8 +121,11 @@ class SignupActivity : AppCompatActivity() {
                     Toast.makeText(this,"SignUp Successful",Toast.LENGTH_SHORT).show()
                     val sh = getSharedPreferences("UserID", MODE_PRIVATE)
                     val edit = sh.edit()
-                    edit.putString("id",email)
+                    val user=mAuth.currentUser
+                    val id=user!!.uid
+                    edit.putString("id",id)
                     edit.apply()
+
 
                     startActivity(Intent(this, MainActivity::class.java))
                     finish()
@@ -142,7 +145,9 @@ class SignupActivity : AppCompatActivity() {
 
                     val sh = getSharedPreferences("UserID", MODE_PRIVATE)
                     val edit = sh.edit()
-                    edit.putString("id",email)
+                    val user=mAuth.currentUser
+                    val id=user!!.uid
+                    edit.putString("id",id)
                     edit.apply()
 
                     Toast.makeText(this,"Login Successful",Toast.LENGTH_SHORT).show()
@@ -162,7 +167,7 @@ class SignupActivity : AppCompatActivity() {
             bind.emailId.error = "Empty field"
             bind.emailId.requestFocus()
         }
-        else if(!bind.emailId.text.toString().trim().endsWith(".com")){
+        else if(!bind.emailId.text.toString().trim().endsWith("@gmail.com")){
             bind.emailId.error = "Not a valid mail"
             bind.emailId.requestFocus()
         }

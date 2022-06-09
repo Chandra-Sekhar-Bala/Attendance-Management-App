@@ -12,6 +12,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DiffUtil
@@ -37,6 +38,7 @@ class Attendance(val stream: String?,val sem: String?) : Fragment() {
     private var roll = 0
     lateinit var noData: TextView
     lateinit var noDataArrow: ImageView
+    lateinit var email:String
     var total = 0
 
     override fun onCreateView(
@@ -45,6 +47,8 @@ class Attendance(val stream: String?,val sem: String?) : Fragment() {
     ): View? {
         val root = inflater.inflate(R.layout.fragment_attendance__card, container, false)
         init(root)
+//        val sh = requireActivity().getSharedPreferences("UserID", Context.MODE_PRIVATE);
+//        email = sh.getString("id", "")!!
         ref = firebaseDatabase.getReference("BIMS")
         ref2 = firebaseDatabase.getReference("BIMS")
         return root
@@ -60,19 +64,24 @@ class Attendance(val stream: String?,val sem: String?) : Fragment() {
             noData.visibility = View.VISIBLE
             noDataArrow.visibility = View.VISIBLE
             cardStackView.visibility = View.GONE
+            Log.e("neel","Intent is null")
         }else{
             cardStackView.visibility = View.VISIBLE
             noData.visibility = View.GONE
             noDataArrow.visibility = View.GONE
+            Log.e("neel","Intent is not null")
         }
 
         val sh = requireActivity().getSharedPreferences("UserID", Context.MODE_PRIVATE)
-        val id = sh.getString("id", "")
+        email = sh.getString("id", "")!!
+        Log.e("neel",email)
         try {
-        db = FirebaseDatabase.getInstance().getReference("BIMS").child("user_Email").child(stream!!)
+            Log.e("neel","try call")
+        db = FirebaseDatabase.getInstance().getReference("BIMS").child(email).child(stream!!)
             .child(sem!!).child("nameId")
         prepareData()
         }catch (e : Exception){
+            Log.e("neel","Exception call "+e.message)
             Log.e("TAGTAG",e.message.toString())
         }
 
@@ -99,7 +108,7 @@ class Attendance(val stream: String?,val sem: String?) : Fragment() {
                 if (direction == Direction.Right) {
                     var p = curent.present
                     p= p!! +1
-                    ref.child("user_Email").child(stream!!).child("semID").child(sem!!)
+                    ref.child(email).child(stream!!).child("semID").child(sem!!)
                         .child("nameId").child(curent.roll.toString()).child("present")
                         .setValue(p)
 
@@ -107,10 +116,10 @@ class Attendance(val stream: String?,val sem: String?) : Fragment() {
 //                    attnd[dateb] = true
 
 
-                    ref.child("user_Email").child(stream).child("semID").child(sem)
+                    ref.child(email).child(stream).child("semID").child(sem)
                         .child("nameId").child(curent.roll.toString()).child("PresentID").child(dateb.toString())
                         .child("dateP").setValue(dateb.toString())
-                    ref.child("user_Email").child(stream).child("semID").child(sem)
+                    ref.child(email).child(stream).child("semID").child(sem)
                         .child("nameId").child(curent.roll.toString()).child("PresentID").child(dateb.toString())
                         .child("AOrP").setValue("Present")
 
@@ -121,10 +130,10 @@ class Attendance(val stream: String?,val sem: String?) : Fragment() {
 //                    Toast.makeText(getContext(), "Direction Top", Toast.LENGTH_SHORT).show();
                 }
                 if (direction == Direction.Left) {
-                    ref.child("user_Email").child(stream!!).child("semID").child(sem!!)
+                    ref.child(email).child(stream!!).child("semID").child(sem!!)
                         .child("nameId").child(curent.roll.toString()).child("PresentID").child(dateb.toString())
                         .child("dateP").setValue(dateb)
-                    ref.child("user_Email").child(stream).child("semID").child(sem)
+                    ref.child(email).child(stream).child("semID").child(sem)
                         .child("nameId").child(curent.roll.toString()).child("PresentID").child(dateb.toString())
                         .child("AOrP").setValue("Absent")
                     Toast.makeText(getContext(), "Absent roll no "+curent.roll, Toast.LENGTH_SHORT).show()
@@ -191,18 +200,26 @@ class Attendance(val stream: String?,val sem: String?) : Fragment() {
     }
 
     private fun prepareData() {
-        ref2 = firebaseDatabase.getReference("BIMS").child("user_Email")
+        ref2 = firebaseDatabase.getReference("BIMS").child(email)
             .child(stream.toString()).child("semID").child(sem.toString())
             .child("nameId")
+        Log.e("neel","call Data")
         ref2.addValueEventListener(object: ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 list.clear()
                 if(snapshot.exists()){
                     for ( snap in snapshot.children) {
+
+                        Log.e("neel","call loop")
                         val data = snap.getValue(CardModel::class.java)
                         list.add(data!!)
+
                     }
                     setAdapter()
+                }
+                else{
+                    Toast.makeText(requireContext(),"Data dose not exist",Toast.LENGTH_SHORT).show()
+                    Log.e("neel","call else")
                 }
             }
             override fun onCancelled(error: DatabaseError) {

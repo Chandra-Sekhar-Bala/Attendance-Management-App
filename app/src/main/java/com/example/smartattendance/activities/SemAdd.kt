@@ -14,6 +14,7 @@ import com.example.smartattendance.database.Sem.semAdapterClass
 import com.google.firebase.database.*
 
 class SemAdd :  AppCompatActivity(),semAdapterClass.semItemCLicked{
+    lateinit var email:String
     lateinit var SemName:EditText
     lateinit var SemAddButton:Button
     lateinit var userRecyclerView: RecyclerView
@@ -36,11 +37,14 @@ class SemAdd :  AppCompatActivity(),semAdapterClass.semItemCLicked{
         ref2=firebaseDatabase.getReference("BIMS")
         StreamName= intent.getStringExtra("StrName").toString()
 
+        val sh = getSharedPreferences("UserID", MODE_PRIVATE);
+        email = sh.getString("id", "")!!
+
         data()
 
         SemAddButton.setOnClickListener(){
             if (SemName.text.isNotEmpty()){
-                ref.child("user_Email").child(StreamName).child("semID").child(SemName.text.toString())
+                ref.child(email).child(StreamName).child("semID").child(SemName.text.toString())
                     .child("sem").setValue(SemName.text.toString())
                     data()
             }
@@ -58,7 +62,7 @@ class SemAdd :  AppCompatActivity(),semAdapterClass.semItemCLicked{
     }
     private fun getUserData() {
 
-        ref2 = firebaseDatabase.getReference("BIMS").child("user_Email").child(StreamName)
+        ref2 = firebaseDatabase.getReference("BIMS").child(email).child(StreamName)
             .child("semID")
 
         var n=1
@@ -85,7 +89,7 @@ class SemAdd :  AppCompatActivity(),semAdapterClass.semItemCLicked{
     }
 
     private fun removeUserData() {
-        ref2 = firebaseDatabase.getReference("BIMS").child("user_Email").child(StreamName)
+        ref2 = firebaseDatabase.getReference("BIMS").child(email).child(StreamName)
             .child("semID")
 
         ref2.addValueEventListener(object : ValueEventListener {
@@ -116,7 +120,7 @@ class SemAdd :  AppCompatActivity(),semAdapterClass.semItemCLicked{
     }
 
     override fun onDeleteClicked(itemCLicked: String?) {
-        ref.child("user_Email").child(StreamName).child("semID").child(itemCLicked.toString()).removeValue()
+        ref.child(email).child(StreamName).child("semID").child(itemCLicked.toString()).removeValue()
         Toast.makeText(this," the delete button click $itemCLicked",Toast.LENGTH_SHORT).show()
         data()
     }

@@ -16,6 +16,7 @@ import com.example.smartattendance.model.CardModel
 import com.google.firebase.database.*
 
 class AddName : AppCompatActivity(),stdAdapterClass.stdItemCLicked{
+    lateinit var email:String
     lateinit var stdName: EditText
     lateinit var stdRoll: TextView
     lateinit var stdPresent: EditText
@@ -32,6 +33,7 @@ class AddName : AppCompatActivity(),stdAdapterClass.stdItemCLicked{
     var roll = 0
 
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_name)
@@ -46,6 +48,8 @@ class AddName : AppCompatActivity(),stdAdapterClass.stdItemCLicked{
         ref2 = firebaseDatabase.getReference("BIMS")
         semName = intent.getStringExtra("semName").toString()
         streamName = intent.getStringExtra("streamName").toString()
+        val sh = getSharedPreferences("UserID", MODE_PRIVATE);
+        email = sh.getString("id", "")!!
         data()
         addSdt.setOnClickListener() {
 
@@ -55,17 +59,17 @@ class AddName : AppCompatActivity(),stdAdapterClass.stdItemCLicked{
 
                 val cardObj = CardModel(stdName.text.toString(),stdRoll.text.toString(),semName,null,0)
 
-                ref.child("user_Email").child(streamName).child("semID").child(semName)
+                ref.child(email).child(streamName).child("semID").child(semName)
                     .child("nameId").child(stdRoll.text.toString()).child("roll")
                     .setValue(stdRoll.text.toString())
-                ref.child("user_Email").child(streamName).child("semID").child(semName)
+                ref.child(email).child(streamName).child("semID").child(semName)
                     .child("nameId").child(stdRoll.text.toString()).child("name")
                     .setValue(stdName.text.toString())
-                ref.child("user_Email").child(streamName).child("semID").child(semName)
+                ref.child(email).child(streamName).child("semID").child(semName)
                     .child("nameId").child(stdRoll.text.toString()).child("present")
                     .setValue(0)
 
-                ref.child("user_Email").child(streamName).child("semID").child(semName)
+                ref.child(email).child(streamName).child("semID").child(semName)
                     .child("nameId").child(stdRoll.text.toString()).setValue(cardObj)
 
             } else {
@@ -106,7 +110,7 @@ class AddName : AppCompatActivity(),stdAdapterClass.stdItemCLicked{
     }
     private fun getUserData() {
 
-            ref2 = firebaseDatabase.getReference("BIMS").child("user_Email")
+            ref2 = firebaseDatabase.getReference("BIMS").child(email)
                 .child(streamName).child("semID").child(semName)
                 .child("nameId")
 
@@ -137,7 +141,7 @@ class AddName : AppCompatActivity(),stdAdapterClass.stdItemCLicked{
             })
         }
     private fun removeUserData() {
-        ref2 = firebaseDatabase.getReference("BIMS").child("user_Email")
+        ref2 = firebaseDatabase.getReference("BIMS").child(email)
             .child(streamName).child("semID").child(semName)
             .child("nameId")
 

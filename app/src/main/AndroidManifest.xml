@@ -12,12 +12,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SmartAttendance">
         <activity
-            android:name=".PresentStd"
-            android:exported="false" />
-        <activity
-            android:name=".activities.ppTest"
-            android:exported="false" />
-        <activity
             android:name=".activities.AddName"
             android:exported="false" />
         <activity
@@ -37,15 +31,17 @@
             android:exported="false" />
         <activity
             android:name=".activities.SignupActivity"
-            android:exported="false"></activity>
-        <activity
-            android:name=".activities.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".activities.MainActivity"
+            android:exported="false">
+
         </activity>
     </application>
 
