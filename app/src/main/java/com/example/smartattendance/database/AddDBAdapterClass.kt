@@ -7,15 +7,14 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.smartattendance.R
-import com.example.smartattendance.activities.StreamAdd
 import com.example.smartattendance.fragment.AddDbFragment
 
 class AddDBAdapterClass(private var userList: ArrayList<addDBDataClass>, private val listener: AddDbFragment): RecyclerView.Adapter<AddDBAdapterClass.MyViewHolder>() {
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AddDBAdapterClass.MyViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view= LayoutInflater.from(parent.context).inflate(R.layout.item_view,parent,false)
-        val viewHolder = AddDBAdapterClass.MyViewHolder(view)
+        val viewHolder = MyViewHolder(view)
         view.setOnClickListener{
             listener.onItemCLicked(userList[viewHolder.adapterPosition].StreamName!!)
         }
@@ -23,12 +22,11 @@ class AddDBAdapterClass(private var userList: ArrayList<addDBDataClass>, private
     }
 
 
-    override fun onBindViewHolder(holder: AddDBAdapterClass.MyViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentItem=userList[position]
         holder.streamD.text=currentItem.StreamName
         holder.deleteButton.setOnClickListener {
-            listener.onDeleteClicked(currentItem.StreamName)
-            removeItem(position)
+            listener.onDeleteClicked(currentItem.StreamName, position)
         }
     }
 
@@ -47,6 +45,6 @@ class AddDBAdapterClass(private var userList: ArrayList<addDBDataClass>, private
     }
     interface StreamItemCLicked {
         fun onItemCLicked(item:String)
-        fun onDeleteClicked(itemCLicked: String?)
+        fun onDeleteClicked(itemCLicked: String?, position: Int)
     }
 }

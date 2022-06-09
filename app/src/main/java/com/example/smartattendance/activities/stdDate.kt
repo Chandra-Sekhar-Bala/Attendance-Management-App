@@ -2,12 +2,10 @@ package com.example.smartattendance.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.smartattendance.R
-import com.example.smartattendance.database.StreamAdapter
 import com.example.smartattendance.database.pre.preAdapterClass
 import com.example.smartattendance.database.pre.preDataClass
 import com.google.firebase.database.*

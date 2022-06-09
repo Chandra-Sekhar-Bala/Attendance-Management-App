@@ -217,10 +217,6 @@ class Attendance(val stream: String?,val sem: String?) : Fragment() {
                     }
                     setAdapter()
                 }
-                else{
-                    Toast.makeText(requireContext(),"Data dose not exist",Toast.LENGTH_SHORT).show()
-                    Log.e("neel","call else")
-                }
             }
             override fun onCancelled(error: DatabaseError) {
                 Toast.makeText(requireContext(),"Cannot load data", Toast.LENGTH_SHORT).show()

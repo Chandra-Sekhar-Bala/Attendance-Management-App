@@ -9,20 +9,18 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.smartattendance.R
 import com.example.smartattendance.activities.SemAdd
-import com.example.smartattendance.activities.StreamAdd
 import com.example.smartattendance.database.AddDBAdapterClass
 import com.example.smartattendance.database.addDBDataClass
-import com.google.android.gms.common.api.internal.StatusExceptionMapper
 import com.google.firebase.database.*
 
 
-class AddDbFragment : Fragment(), AddDBAdapterClass.StreamItemCLicked{
+class AddDbFragment : Fragment(), AddDBAdapterClass.StreamItemCLicked {
 
     lateinit var database: FirebaseDatabase
     lateinit var myRef: DatabaseReference
@@ -32,8 +30,8 @@ class AddDbFragment : Fragment(), AddDBAdapterClass.StreamItemCLicked{
     lateinit var userRecyclerView: RecyclerView
     lateinit var userArrayList: ArrayList<addDBDataClass>
     lateinit var adapter: AddDBAdapterClass
-    lateinit var email:String
-    lateinit var user_str_item:EditText
+    lateinit var email: String
+    lateinit var user_str_item: EditText
 
 
     override fun onCreateView(
@@ -50,18 +48,19 @@ class AddDbFragment : Fragment(), AddDBAdapterClass.StreamItemCLicked{
         database = FirebaseDatabase.getInstance()
         myRef = database.getReference("BIMS")
         myRef2 = database.getReference("BIMS")
-        userRecyclerView=view.findViewById(R.id.rr)
-        val sh =  requireActivity().getSharedPreferences("UserID", Context.MODE_PRIVATE)
+        userRecyclerView = view.findViewById(R.id.rr)
+        val sh = requireActivity().getSharedPreferences("UserID", Context.MODE_PRIVATE)
         email = sh.getString("id", "")!!
         data()
-        addStreamData=view.findViewById(R.id.Add_Stream)
-        user_str_item=view.findViewById(R.id.user_str_item)
+        addStreamData = view.findViewById(R.id.Add_Stream)
+        user_str_item = view.findViewById(R.id.user_str_item)
     }
+
     override fun onResume() {
 
         super.onResume()
         addStreamData.setOnClickListener {
-            if (user_str_item.text.isNotEmpty()){
+            if (user_str_item.text.isNotEmpty()) {
 
                 myRef.child(email).child(user_str_item.text.toString()).child("StreamName")
                     .setValue(user_str_item.text.toString())
@@ -73,13 +72,12 @@ class AddDbFragment : Fragment(), AddDBAdapterClass.StreamItemCLicked{
 
     }
 
-   
 
     private fun data() {
-        userRecyclerView.layoutManager= LinearLayoutManager(context)
+        userRecyclerView.layoutManager = LinearLayoutManager(context)
         userRecyclerView.setHasFixedSize(true)
 
-        userArrayList= arrayListOf()
+        userArrayList = arrayListOf()
 
         removeUserData()
         getUserData()
@@ -91,14 +89,14 @@ class AddDbFragment : Fragment(), AddDBAdapterClass.StreamItemCLicked{
         myRef2.addValueEventListener(object : ValueEventListener {
 
             override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.exists()){
-                    for(userSnapshot in snapshot.children){
+                if (snapshot.exists()) {
+                    for (userSnapshot in snapshot.children) {
 
-                        val user=userSnapshot.getValue(addDBDataClass::class.java)
+                        val user = userSnapshot.getValue(addDBDataClass::class.java)
                         userArrayList.add(user!!)
                     }
 
-                    adapter= AddDBAdapterClass(userArrayList,this@AddDbFragment)
+                    adapter = AddDBAdapterClass(userArrayList, this@AddDbFragment)
                 }
             }
 
@@ -108,15 +106,16 @@ class AddDbFragment : Fragment(), AddDBAdapterClass.StreamItemCLicked{
 
         })
     }
+
     private fun removeUserData() {
-        myRef2 =  database.getReference("BIMS").child(email).child("StreamName")
+        myRef2 = database.getReference("BIMS").child(email).child("StreamName")
 
         myRef2.addValueEventListener(object : ValueEventListener {
 
             override fun onDataChange(snapshot: DataSnapshot) {
 
                 userArrayList.clear()
-                adapter = AddDBAdapterClass(userArrayList,this@AddDbFragment)
+                adapter = AddDBAdapterClass(userArrayList, this@AddDbFragment)
                 userRecyclerView.adapter = adapter
             }
 
@@ -130,16 +129,33 @@ class AddDbFragment : Fragment(), AddDBAdapterClass.StreamItemCLicked{
     }
 
     override fun onItemCLicked(item: String) {
-
-        Toast.makeText(context, "CLicked item $item", Toast.LENGTH_SHORT).show()
-
-        val intent=Intent(context,SemAdd::class.java)
-        intent.putExtra("StrName",item)
+        val intent = Intent(context, SemAdd::class.java)
+        intent.putExtra("StrName", item)
         startActivity(intent)
     }
 
-    override fun onDeleteClicked(itemCLicked: String?) {
-        TODO("Not yet implemented")
+    override fun onDeleteClicked(itemCLicked: String?, position : Int) {
+
+        val builder: AlertDialog.Builder = AlertDialog.Builder(requireContext())
+
+        builder.setTitle("Delete Stream!")
+        builder.setMessage("Are you sure, you want to delete this stream?")
+
+        builder.setPositiveButton(
+            "YES"
+        ) { dialog, _ -> // Delete data from firebase
+            myRef.child(email).child(itemCLicked.toString()).removeValue()
+            adapter.notifyItemRemoved(position)
+            data()
+            dialog.dismiss()
+        }
+        builder.setNegativeButton(
+            "NO"
+        ) { dialog, _ -> // Do nothing
+            dialog.dismiss()
+        }
+        val alert: AlertDialog = builder.create()
+        alert.show()
     }
 
 }
