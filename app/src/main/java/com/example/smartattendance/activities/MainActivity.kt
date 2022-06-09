@@ -13,12 +13,14 @@ import com.example.smartattendance.fragment.AddDbFragment
 import com.example.smartattendance.fragment.Profile
 
 class MainActivity : AppCompatActivity() {
+
+    lateinit var bottomNavigationBar : BottomNavigationBar
     var fragmentManager = supportFragmentManager
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val frameLayout = findViewById<FrameLayout>(R.id.frameLayout)
-        val bottomNavigationBar = findViewById<BottomNavigationBar>(R.id.bottom_navigation)
+        bottomNavigationBar = findViewById(R.id.bottom_navigation)
         bottomNavigationBar
             .setMode(BottomNavigationBar.MODE_SHIFTING)
         bottomNavigationBar
@@ -26,38 +28,27 @@ class MainActivity : AppCompatActivity() {
         bottomNavigationBar
             .setActiveColor("#FFFFFF")
             .setInActiveColor("#353b48")
-        bottomNavigationBar
-            .addItem(
-                BottomNavigationItem(
-                    R.drawable.attendance_icon,
-                    "Attendance"
-                ).setActiveColor("#040338")
-            )
-            .addItem(
-                BottomNavigationItem(
-                    R.drawable.database_icon,
-                    "Database"
-                ).setActiveColor("#070565")
-            )
-            .initialise()
 
         val stream = intent.getStringExtra("Stream")
         val sem = intent.getStringExtra("Sem")
 
-        Log.e("Checking","value of sem is: "+sem)
         if(sem != null){
+            setTab(0)
             fragmentManager.beginTransaction()
                 .replace(R.id.frameLayout, Attendance(stream,sem))
                 .commit()
         }else{
+            setTab(1)
             fragmentManager.beginTransaction()
                 .replace(R.id.frameLayout, AddDbFragment())
                 .commit()
         }
 
+
         bottomNavigationBar.setTabSelectedListener(object :
             BottomNavigationBar.OnTabSelectedListener {
             override fun onTabSelected(position: Int) {
+
                 var fragment: Fragment? = null
                 when (position) {
                     0 -> fragment = Attendance(stream,sem)
@@ -72,5 +63,23 @@ class MainActivity : AppCompatActivity() {
             override fun onTabUnselected(position: Int) {}
             override fun onTabReselected(position: Int) {}
         })
+    }
+
+    private fun setTab(i: Int) {
+        bottomNavigationBar
+            .addItem(
+                BottomNavigationItem(
+                    R.drawable.attendance_icon,
+                    "Attendance"
+                ).setActiveColor("#040338")
+            )
+            .addItem(
+                BottomNavigationItem(
+                    R.drawable.database_icon,
+                    "Database"
+                ).setActiveColor("#070565")
+            ).setFirstSelectedPosition(i)
+            .initialise()
+
     }
 }

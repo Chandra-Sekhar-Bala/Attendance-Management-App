@@ -20,7 +20,6 @@ import com.example.smartattendance.adapters.CardStackAdapter
 import com.example.smartattendance.model.CardModel
 import com.google.firebase.database.*
 import com.yuyakaido.android.cardstackview.*
-import java.text.SimpleDateFormat
 import java.time.LocalDate
 
 class Attendance(val stream: String?,val sem: String?) : Fragment() {
@@ -36,6 +35,7 @@ class Attendance(val stream: String?,val sem: String?) : Fragment() {
     private lateinit var cardStackView : CardStackView
     private var roll = 0
     var total = 0
+    lateinit var noData: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,15 +50,27 @@ class Attendance(val stream: String?,val sem: String?) : Fragment() {
 
     private fun init(root: View) {
 
+        noData = root.findViewById(R.id.noData)
+        cardStackView = root.findViewById(R.id.card_stack_view)
+
+        if(stream == null){
+            noData.visibility = View.VISIBLE
+            cardStackView.visibility = View.GONE
+        }else{
+            cardStackView.visibility = View.VISIBLE
+            noData.visibility = View.GONE
+        }
+
         val sh = requireActivity().getSharedPreferences("UserID", Context.MODE_PRIVATE)
         val id = sh.getString("id", "")
-
+        try {
         db = FirebaseDatabase.getInstance().getReference("BIMS").child("user_Email").child(stream!!)
             .child(sem!!).child("nameId")
         prepareData()
+        }catch (e : Exception){
+            Log.e("TAGTAG",e.message.toString())
+        }
 
-
-        cardStackView = root.findViewById<CardStackView>(R.id.card_stack_view)
         manager = CardStackLayoutManager(context, object : CardStackListener {
             override fun onCardDragging(direction: Direction, ratio: Float) {
                 Log.d(TAG, "onCardDragging: d=" + direction.name + " ratio=" + ratio)
@@ -73,10 +85,13 @@ class Attendance(val stream: String?,val sem: String?) : Fragment() {
                 if (direction == Direction.Right) {
                     var p = curent.present?.toInt()
                     p= p!! +1
-                    ref.child("user_Email").child(stream).child("semID").child(sem)
+                    ref.child("user_Email").child(stream!!).child("semID").child(sem!!)
                         .child("nameId").child(curent.roll.toString()).child("present")
                         .setValue(p)
-//                    val data=kotlin<String,String>()
+
+//                    val attnd = HashMap<String,Boolean>()
+//                    attnd[dateb] = true
+
 
                     ref.child("user_Email").child(stream).child("semID").child(sem)
                         .child("nameId").child(curent.roll.toString()).child("PresentID").child(dateb.toString())
@@ -92,7 +107,7 @@ class Attendance(val stream: String?,val sem: String?) : Fragment() {
 //                    Toast.makeText(getContext(), "Direction Top", Toast.LENGTH_SHORT).show();
                 }
                 if (direction == Direction.Left) {
-                    ref.child("user_Email").child(stream).child("semID").child(sem)
+                    ref.child("user_Email").child(stream!!).child("semID").child(sem!!)
                         .child("nameId").child(curent.roll.toString()).child("PresentID").child(dateb.toString())
                         .child("dateP").setValue(dateb)
                     ref.child("user_Email").child(stream).child("semID").child(sem)
@@ -154,10 +169,15 @@ class Attendance(val stream: String?,val sem: String?) : Fragment() {
                         list.add(data!!)
                         ++total
                     }
-                    adapter = CardStackAdapter(list, requireContext())
-                    cardStackView.layoutManager = manager
-                    cardStackView.adapter = adapter
-                    cardStackView.itemAnimator = DefaultItemAnimator()
+                    try {
+                        adapter = CardStackAdapter(list, requireContext())
+                        cardStackView.layoutManager = manager
+                        cardStackView.adapter = adapter
+                        cardStackView.itemAnimator = DefaultItemAnimator()
+                    }catch (e : Exception){
+                        Log.e("TAGTAG",e.message.toString())
+                    }
+
                 }
             }
             override fun onCancelled(error: DatabaseError) {
