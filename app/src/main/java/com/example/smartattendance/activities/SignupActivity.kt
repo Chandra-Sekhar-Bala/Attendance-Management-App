@@ -18,6 +18,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 
 class SignupActivity : AppCompatActivity() {
@@ -31,7 +33,7 @@ class SignupActivity : AppCompatActivity() {
         bind = ActivitySignupBinding.inflate(layoutInflater)
         setContentView(bind.root)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-        mAuth = FirebaseAuth.getInstance()
+        mAuth = Firebase.auth
 
         // If user id already registered :
         val sh = getSharedPreferences("UserID", MODE_PRIVATE)
@@ -75,6 +77,8 @@ class SignupActivity : AppCompatActivity() {
         bind.signupBtn.setOnClickListener {
             if (firstTime == 1) {
                 bind.LoginBtn.visibility = View.GONE
+                bind.emailField.visibility = View.VISIBLE
+                bind.passwordField.visibility = View.VISIBLE
                 ++firstTime
                 LoadAnimation()
             } else {
@@ -93,10 +97,11 @@ class SignupActivity : AppCompatActivity() {
             if (firstTime == 1) {
                 bind.signupBtn.visibility = View.GONE
                 ++firstTime
+                bind.emailField.visibility = View.VISIBLE
+                bind.passwordField.visibility = View.VISIBLE
                 LoadAnimation()
             }
             else {
-
                 if (validateData()) {
                     bind.progressBar.visibility = View.VISIBLE
                     Login(
@@ -121,11 +126,11 @@ class SignupActivity : AppCompatActivity() {
 
                     startActivity(Intent(this, MainActivity::class.java))
                     finish()
-                } else {
-                    Toast.makeText(this,"Error occurred",Toast.LENGTH_SHORT).show()
                 }
 
                 bind.progressBar.visibility = View.GONE
+            }.addOnFailureListener{
+                Toast.makeText(this,"${it.message}",Toast.LENGTH_SHORT).show()
             }
     }
     private fun Login(email: String, password : String) {
@@ -144,10 +149,10 @@ class SignupActivity : AppCompatActivity() {
                     startActivity(Intent(this, MainActivity::class.java))
                     finish()
 
-                } else {
-                    Toast.makeText(this,"Error occurred",Toast.LENGTH_SHORT).show()
                 }
                 bind.progressBar.visibility = View.GONE
+            }.addOnFailureListener{
+                Toast.makeText(this,"${it.message}",Toast.LENGTH_SHORT).show()
             }
     }
 
@@ -163,6 +168,9 @@ class SignupActivity : AppCompatActivity() {
         }
         else if(bind.password.text.toString().trim().isEmpty()){
             bind.password.error = "Empty field"
+            bind.password.requestFocus()
+        }else if(bind.password.text.toString().trim().length < 6){
+            bind.password.error = "Password length should be greater then 6"
             bind.password.requestFocus()
         }
         else
@@ -194,7 +202,7 @@ class SignupActivity : AppCompatActivity() {
             val sh = getSharedPreferences("UserID", MODE_PRIVATE)
             val edit = sh.edit()
 
-            edit.putString("id",idToken)
+            edit.putString("id",email)
             edit.apply()
 
             Log.e("USERDETAILS","Name $name\n email: $email photo: $photo And id is $idToken ")
@@ -203,6 +211,7 @@ class SignupActivity : AppCompatActivity() {
             finish()
 
         } catch (e: ApiException) {
+
             Toast.makeText(this, "Error occurred", Toast.LENGTH_SHORT).show()
 
             Log.e("USERDETAILS"," Exception code ${e.message} + ${e.statusCode}")

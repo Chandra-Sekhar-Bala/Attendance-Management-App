@@ -68,7 +68,7 @@ class Attendance(val stream: String?,val sem: String?) : Fragment() {
             override fun onCardSwiped(direction: Direction) {
                 val curent = list[roll]
                 ++roll
-                var dateb=LocalDate.now().toString()
+                val dateb=LocalDate.now().toString()
                 Log.d(TAG, "onCardSwiped: p=" + manager!!.topPosition + " d=" + direction)
                 if (direction == Direction.Right) {
                     var p = curent.present?.toInt()
@@ -76,11 +76,13 @@ class Attendance(val stream: String?,val sem: String?) : Fragment() {
                     ref.child("user_Email").child(stream).child("semID").child(sem)
                         .child("nameId").child(curent.roll.toString()).child("present")
                         .setValue(p)
+//                    val data=kotlin<String,String>()
+
                     ref.child("user_Email").child(stream).child("semID").child(sem)
-                        .child("nameId").child(curent.roll.toString()).child("PresentID").child(dateb)
-                        .child("date").setValue(dateb)
+                        .child("nameId").child(curent.roll.toString()).child("PresentID").child(dateb.toString())
+                        .child("dateP").setValue(dateb.toString())
                     ref.child("user_Email").child(stream).child("semID").child(sem)
-                        .child("nameId").child(curent.roll.toString()).child("PresentID").child(dateb)
+                        .child("nameId").child(curent.roll.toString()).child("PresentID").child(dateb.toString())
                         .child("AOrP").setValue("Present")
 
                     Toast.makeText(getContext(), "Preset roll no "+curent.roll, Toast.LENGTH_SHORT).show()
@@ -91,10 +93,10 @@ class Attendance(val stream: String?,val sem: String?) : Fragment() {
                 }
                 if (direction == Direction.Left) {
                     ref.child("user_Email").child(stream).child("semID").child(sem)
-                        .child("nameId").child(curent.roll.toString()).child("PresentID").child(dateb)
-                        .child("date").setValue(dateb)
+                        .child("nameId").child(curent.roll.toString()).child("PresentID").child(dateb.toString())
+                        .child("dateP").setValue(dateb)
                     ref.child("user_Email").child(stream).child("semID").child(sem)
-                        .child("nameId").child(curent.roll.toString()).child("PresentID").child(dateb)
+                        .child("nameId").child(curent.roll.toString()).child("PresentID").child(dateb.toString())
                         .child("AOrP").setValue("Absent")
                     Toast.makeText(getContext(), "Absent roll no "+curent.roll, Toast.LENGTH_SHORT).show()
                 }
