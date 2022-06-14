@@ -165,6 +165,12 @@ class AddName : AppCompatActivity(),stdAdapterClass.stdItemCLicked{
 
     override fun onItemCLickedStd(itemCLicked: String?) {
 
+        val intent=Intent(this,presentStd::class.java)
+        intent.putExtra("stream",streamName)
+        intent.putExtra("sem",semName)
+        intent.putExtra("roll",itemCLicked.toString())
+        startActivity(intent)
+
     }
 
 

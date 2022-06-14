@@ -12,13 +12,13 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SmartAttendance">
         <activity
+            android:name=".activities.presentStd"
+            android:exported="false" />
+        <activity
             android:name=".activities.AddName"
             android:exported="false" />
         <activity
             android:name=".activities.SemAdd"
-            android:exported="false" />
-        <activity
-            android:name=".activities.StreamAdd"
             android:exported="false" />
         <activity
             android:name=".activities.EditClass"
@@ -40,9 +40,7 @@
         </activity>
         <activity
             android:name=".activities.MainActivity"
-            android:exported="false">
-
-        </activity>
+            android:exported="false"></activity>
     </application>
 
 </manifest>

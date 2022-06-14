@@ -117,11 +117,11 @@ class Attendance(val stream: String?,val sem: String?) : Fragment() {
 
 
                     ref.child(email).child(stream).child("semID").child(sem)
-                        .child("nameId").child(curent.roll.toString()).child("PresentID").child(dateb.toString())
-                        .child("dateP").setValue(dateb.toString())
+                        .child("nameId").child(curent.roll.toString()).child("presentID").child(dateb).
+                            child("date").setValue(dateb)
                     ref.child(email).child(stream).child("semID").child(sem)
-                        .child("nameId").child(curent.roll.toString()).child("PresentID").child(dateb.toString())
-                        .child("AOrP").setValue("Present")
+                        .child("nameId").child(curent.roll.toString()).child("presentID").child(dateb).
+                            child("att").setValue("Present")
 
                     Toast.makeText(getContext(), "Preset roll no "+curent.roll, Toast.LENGTH_SHORT).show()
                 }
@@ -131,11 +131,11 @@ class Attendance(val stream: String?,val sem: String?) : Fragment() {
                 }
                 if (direction == Direction.Left) {
                     ref.child(email).child(stream!!).child("semID").child(sem!!)
-                        .child("nameId").child(curent.roll.toString()).child("PresentID").child(dateb.toString())
-                        .child("dateP").setValue(dateb)
+                        .child("nameId").child(curent.roll.toString()).child("presentID").child(dateb).
+                        child("date").setValue(dateb)
                     ref.child(email).child(stream).child("semID").child(sem)
-                        .child("nameId").child(curent.roll.toString()).child("PresentID").child(dateb.toString())
-                        .child("AOrP").setValue("Absent")
+                        .child("nameId").child(curent.roll.toString()).child("presentID").child(dateb).
+                        child("att").setValue("Absent")
                     Toast.makeText(getContext(), "Absent roll no "+curent.roll, Toast.LENGTH_SHORT).show()
                 }
                 if (direction == Direction.Bottom) {

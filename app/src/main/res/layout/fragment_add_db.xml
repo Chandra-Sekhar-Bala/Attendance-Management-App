@@ -7,7 +7,7 @@
     android:textColor="@color/white"
     android:layout_margin="10dp"
     android:orientation="vertical"
-    android:background="@color/ic_launcher_background">
+    android:background="@drawable/str">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView2"
