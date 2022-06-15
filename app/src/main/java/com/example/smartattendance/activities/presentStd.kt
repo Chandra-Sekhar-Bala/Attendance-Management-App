@@ -65,10 +65,6 @@ class presentStd : AppCompatActivity() {
         ref2 = firebaseDatabase.getReference("BIMS").child(email)
             .child(streamP).child("semID").child(semP)
             .child("nameId").child(rollP).child("presentID")
-
-        Toast.makeText(this@presentStd,"Stream= "+streamP,Toast.LENGTH_SHORT).show()
-        Toast.makeText(this@presentStd,"sem= "+semP,Toast.LENGTH_SHORT).show()
-        Toast.makeText(this@presentStd,"roll= "+rollP,Toast.LENGTH_SHORT).show()
         var n=1
         ref2.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
