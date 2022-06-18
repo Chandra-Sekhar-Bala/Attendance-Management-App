@@ -27,7 +27,7 @@
             android:id="@+id/user_str_item"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="enter the Stream"
+            android:hint="Enter the Stream"
             android:focusedByDefault="false"
             android:focusableInTouchMode="true"
             android:textColor="@color/black"
@@ -36,10 +36,12 @@
 
     <Button
         android:id="@+id/Add_Stream"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/purple_200"
         android:text="Add Stream"
+        android:textColor="@color/white"
+        android:paddingVertical="18dp"
         android:textStyle="bold"
         android:layout_marginStart="10dp"
         app:layout_constraintStart_toStartOf="@+id/cardView2"

@@ -26,7 +26,7 @@
         android:textColorHint="@color/black"
         android:focusedByDefault="false"
         android:focusableInTouchMode="true"
-        android:hint="enter the name of sem"
+        android:hint="Enter the name of sem"
         android:id="@+id/AddSemText"
         />
     </androidx.cardview.widget.CardView>
@@ -34,9 +34,11 @@
         android:layout_marginLeft="10dp"
         android:id="@+id/AddSemButton"
         android:text="Add Sem"
-        android:layout_width="wrap_content"
+        android:textColor="@color/white"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textStyle="bold"
+        android:paddingVertical="18dp"
         android:backgroundTint="@color/purple_200"/>
 
     <ProgressBar
