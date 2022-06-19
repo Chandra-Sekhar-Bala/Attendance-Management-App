@@ -1,6 +1,6 @@
 package com.example.smartattendance.activities
 
-import android.annotation.SuppressLint
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -12,12 +12,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import com.example.smartattendance.R
 import com.example.smartattendance.databinding.ActivitySignupBinding
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.api.ApiException
-import com.google.android.gms.tasks.Task
-import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.*
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
@@ -28,12 +23,16 @@ class SignupActivity : AppCompatActivity() {
     val RC_SIGN_IN = 100
     var firstTime = 1
     private lateinit var mAuth : FirebaseAuth
+    private var verify = ""
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         bind = ActivitySignupBinding.inflate(layoutInflater)
         setContentView(bind.root)
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         mAuth = Firebase.auth
+        mAuth.firebaseAuthSettings.setAppVerificationDisabledForTesting(true)
 
         // If user id already registered :
         val sh = getSharedPreferences("UserID", MODE_PRIVATE)
@@ -42,30 +41,22 @@ class SignupActivity : AppCompatActivity() {
             startActivity(Intent(this, MainActivity::class.java))
             finish()
         }
-        LoadAnimation()
-
-        // lets make sign up process:
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-              .requestEmail()
-            .build()
-
-        // Build a GoogleSignInClient with the options specified by gso.
-        var mGoogleSignInClient = GoogleSignIn.getClient(this, gso)
-
-        val signInIntent = mGoogleSignInClient.signInIntent
-        bind.GoogleAccount.setOnClickListener{
-            Log.e("USERDETAILS","Going in ")
-        startActivityForResult(signInIntent, RC_SIGN_IN)
-        }
-
+        LoadAnimation(0)
     }
 
-    fun LoadAnimation(){
+    fun LoadAnimation( rq : Int){
 
+        if(rq == 0){
+            bind.LoginBtn.startAnimation(AnimationUtils.loadAnimation(this, R.anim.btu))
+            bind.signupBtn.startAnimation(AnimationUtils.loadAnimation(this, R.anim.btu))
+        }else if(rq == 1){
+            bind.LoginBtn.startAnimation(AnimationUtils.loadAnimation(this, R.anim.btu))
+        }else{
+            bind.signupBtn.startAnimation(AnimationUtils.loadAnimation(this, R.anim.btu))
+        }
         bind.emailId.startAnimation(AnimationUtils.loadAnimation(this, R.anim.btu))
         bind.password.startAnimation(AnimationUtils.loadAnimation(this, R.anim.btu))
-        bind.signupBtn.startAnimation(AnimationUtils.loadAnimation(this, R.anim.btu))
-        bind.LoginBtn.startAnimation(AnimationUtils.loadAnimation(this, R.anim.btu))
+        bind.forgetPassword.startAnimation(AnimationUtils.loadAnimation(this, R.anim.btu))
 
     }
 
@@ -77,10 +68,11 @@ class SignupActivity : AppCompatActivity() {
         bind.signupBtn.setOnClickListener {
             if (firstTime == 1) {
                 bind.LoginBtn.visibility = View.GONE
+                bind.forgetPassword.visibility = View.GONE
                 bind.emailField.visibility = View.VISIBLE
                 bind.passwordField.visibility = View.VISIBLE
                 ++firstTime
-                LoadAnimation()
+                LoadAnimation(2)
             } else {
                 if (validateData()) {
                     bind.progressBar.visibility = View.VISIBLE
@@ -99,7 +91,8 @@ class SignupActivity : AppCompatActivity() {
                 ++firstTime
                 bind.emailField.visibility = View.VISIBLE
                 bind.passwordField.visibility = View.VISIBLE
-                LoadAnimation()
+                bind.forgetPassword.visibility = View.VISIBLE
+                LoadAnimation(1)
             }
             else {
                 if (validateData()) {
@@ -111,6 +104,43 @@ class SignupActivity : AppCompatActivity() {
                 }
             }
         }
+
+        bind.forgetPassword.setOnClickListener{
+            if(bind.emailId.text.toString().isEmpty() || !bind.emailId.text.toString().endsWith("@gmail.com")){
+                Toast.makeText(this,"Enter your email please",Toast.LENGTH_SHORT).show()
+            }else {
+                AlertDialog.Builder(this)
+                    .setTitle("Forger Password?")
+                    .setMessage("Are you sure you want reset password?")
+                    .setPositiveButton(
+                        android.R.string.yes
+                    ) { _, _ ->
+                        sendResetPasswordLink(bind.emailId.text.toString())
+
+                    }.setNegativeButton(android.R.string.no)
+                    { _, _ ->
+
+
+                    }.setIcon(android.R.drawable.ic_dialog_alert)
+                    .show()
+            }
+        }
+
+
+    }
+
+    private fun sendResetPasswordLink(email : String) {
+        Log.d("EmailVerify", "Email id is: $email")
+        mAuth.sendPasswordResetEmail(email)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                   Toast.makeText(this, "Email sent, please check your mail",Toast.LENGTH_SHORT).show()
+                }
+            }.addOnFailureListener{
+
+                   Toast.makeText(this, it.message ,Toast.LENGTH_SHORT).show()
+            }
+
     }
 
     private fun signUp(email: String, password : String) {
@@ -182,46 +212,6 @@ class SignupActivity : AppCompatActivity() {
             return true
 
         return false
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        // Result returned from launching the Intent from GoogleSignInClient.getSignInIntent(...);
-        if (requestCode == RC_SIGN_IN) {
-            Log.e("USERDETAILS","Matched ")
-            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
-            handleSignInResult(task)
-        }
-    }
-
-    @SuppressLint("CommitPrefEdits")
-    private fun handleSignInResult(task: Task<GoogleSignInAccount>) {
-        try {
-            val account: GoogleSignInAccount = task.getResult(ApiException::class.java)
-            val idToken = account.id
-            val name = account.displayName
-            val photo = account.photoUrl
-            val email = account.email
-
-            val sh = getSharedPreferences("UserID", MODE_PRIVATE)
-            val edit = sh.edit()
-
-            edit.putString("id",email)
-            edit.apply()
-
-            Log.e("USERDETAILS","Name $name\n email: $email photo: $photo And id is $idToken ")
-
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
-
-        } catch (e: ApiException) {
-
-            Toast.makeText(this, "Error occurred", Toast.LENGTH_SHORT).show()
-
-            Log.e("USERDETAILS"," Exception code ${e.message} + ${e.statusCode}")
-        }
-
     }
 
 }

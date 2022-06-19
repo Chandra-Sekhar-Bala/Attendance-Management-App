@@ -15,11 +15,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "296876539471-i3h7t1bj4dur3v2p2uubla96j0jgkkuo.apps.googleusercontent.com",
+          "client_id": "296876539471-smulrqsgf5kl9rvho75o29io201budv8.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.smartattendance",
-            "certificate_hash": "8247f8d733d00686e2e2893f36a1b195a83a5aa1"
+            "certificate_hash": "44f3aa20cbe4f68a336a085d7ed98b7ac3e96956"
           }
         },
         {

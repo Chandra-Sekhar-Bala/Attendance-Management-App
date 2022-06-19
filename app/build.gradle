@@ -66,5 +66,4 @@ dependencies {
 
     //Stylish navigation
     implementation 'com.ashokvarma.android:bottom-navigation-bar:2.2.0'
-
 }
