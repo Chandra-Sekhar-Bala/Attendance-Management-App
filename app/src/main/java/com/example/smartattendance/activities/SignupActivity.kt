@@ -19,54 +19,59 @@ import com.google.firebase.ktx.Firebase
 
 class SignupActivity : AppCompatActivity() {
     private lateinit var bind : ActivitySignupBinding
-    private lateinit var signInRequest : BeginSignInRequest.Builder
-    val RC_SIGN_IN = 100
-    var firstTime = 1
+    private var firstTime = 1
     private lateinit var mAuth : FirebaseAuth
-    private var verify = ""
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         bind = ActivitySignupBinding.inflate(layoutInflater)
         setContentView(bind.root)
+        // disable night mode
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+
+        // firebase auth initialize
         mAuth = Firebase.auth
+        //
         mAuth.firebaseAuthSettings.setAppVerificationDisabledForTesting(true)
 
-        // If user id already registered :
+        // If user is already registered :
         val sh = getSharedPreferences("UserID", MODE_PRIVATE)
         val id = sh.getString("id",null)
         if(id != null){
             startActivity(Intent(this, MainActivity::class.java))
             finish()
         }
+
+        /* show some animation,
+        * 0 = all should be animate
+        * 1 = Except signup button
+        * */
         LoadAnimation(0)
     }
 
     fun LoadAnimation( rq : Int){
-
-        if(rq == 0){
-            bind.LoginBtn.startAnimation(AnimationUtils.loadAnimation(this, R.anim.btu))
-            bind.signupBtn.startAnimation(AnimationUtils.loadAnimation(this, R.anim.btu))
-        }else if(rq == 1){
-            bind.LoginBtn.startAnimation(AnimationUtils.loadAnimation(this, R.anim.btu))
-        }else{
-            bind.signupBtn.startAnimation(AnimationUtils.loadAnimation(this, R.anim.btu))
+        // re  == Some elements should not be animated
+        when(rq) {
+            0 -> {
+                bind.LoginBtn.startAnimation(AnimationUtils.loadAnimation(this, R.anim.btu))
+                bind.signupBtn.startAnimation(AnimationUtils.loadAnimation(this, R.anim.btu))
+            }
+            1 -> {
+                bind.LoginBtn.startAnimation(AnimationUtils.loadAnimation(this, R.anim.btu))
+            }
         }
         bind.emailId.startAnimation(AnimationUtils.loadAnimation(this, R.anim.btu))
         bind.password.startAnimation(AnimationUtils.loadAnimation(this, R.anim.btu))
         bind.forgetPassword.startAnimation(AnimationUtils.loadAnimation(this, R.anim.btu))
 
     }
-
-
-
     override fun onResume() {
         super.onResume()
 
         bind.signupBtn.setOnClickListener {
-            if (firstTime == 1) {
+            // If user clicks  signup button first time : Show and hide some elements
+            if (firstTime == 1) { // user has clicked for choosing purpose
                 bind.LoginBtn.visibility = View.GONE
                 bind.forgetPassword.visibility = View.GONE
                 bind.emailField.visibility = View.VISIBLE
@@ -74,6 +79,7 @@ class SignupActivity : AppCompatActivity() {
                 ++firstTime
                 LoadAnimation(2)
             } else {
+                // this time user has clicked for signup purpose
                 if (validateData()) {
                     bind.progressBar.visibility = View.VISIBLE
                     signUp(
@@ -85,7 +91,7 @@ class SignupActivity : AppCompatActivity() {
         }
 
         bind.LoginBtn.setOnClickListener {
-
+            // If user clicks login button first time : Show ans hide some elements
             if (firstTime == 1) {
                 bind.signupBtn.visibility = View.GONE
                 ++firstTime
@@ -106,9 +112,11 @@ class SignupActivity : AppCompatActivity() {
         }
 
         bind.forgetPassword.setOnClickListener{
+            // validation
             if(bind.emailId.text.toString().isEmpty() || !bind.emailId.text.toString().endsWith("@gmail.com")){
                 Toast.makeText(this,"Enter your email please",Toast.LENGTH_SHORT).show()
             }else {
+                // get the work done :
                 AlertDialog.Builder(this)
                     .setTitle("Forger Password?")
                     .setMessage("Are you sure you want reset password?")
@@ -119,8 +127,6 @@ class SignupActivity : AppCompatActivity() {
 
                     }.setNegativeButton(android.R.string.no)
                     { _, _ ->
-
-
                     }.setIcon(android.R.drawable.ic_dialog_alert)
                     .show()
             }
@@ -129,6 +135,7 @@ class SignupActivity : AppCompatActivity() {
 
     }
 
+    // Send a reset link to user email
     private fun sendResetPasswordLink(email : String) {
         Log.d("EmailVerify", "Email id is: $email")
         mAuth.sendPasswordResetEmail(email)
@@ -142,6 +149,7 @@ class SignupActivity : AppCompatActivity() {
             }
 
     }
+
 
     private fun signUp(email: String, password : String) {
 
@@ -190,7 +198,7 @@ class SignupActivity : AppCompatActivity() {
                 Toast.makeText(this,"${it.message}",Toast.LENGTH_SHORT).show()
             }
     }
-
+// Validate the user input
     private fun validateData(): Boolean {
 
         if(bind.emailId.text.toString().trim().isEmpty()){

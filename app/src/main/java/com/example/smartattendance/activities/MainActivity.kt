@@ -14,13 +14,18 @@ import com.example.smartattendance.fragment.Profile
 
 class MainActivity : AppCompatActivity() {
 
-    lateinit var bottomNavigationBar : BottomNavigationBar
+    private lateinit var bottomNavigationBar : BottomNavigationBar
     var fragmentManager = supportFragmentManager
+    private lateinit var frameLayout : FrameLayout
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val frameLayout = findViewById<FrameLayout>(R.id.frameLayout)
+
+        // Initilizie views
+        frameLayout = findViewById(R.id.frameLayout)
         bottomNavigationBar = findViewById(R.id.bottom_navigation)
+        // setting up bottomNavigationbar design
         bottomNavigationBar
             .setMode(BottomNavigationBar.MODE_SHIFTING)
         bottomNavigationBar
@@ -29,25 +34,28 @@ class MainActivity : AppCompatActivity() {
             .setActiveColor("#FFFFFF")
             .setInActiveColor("#353b48")
 
+        // intent receiving
         var stream = intent.getStringExtra("Stream")
         var sem = intent.getStringExtra("Sem")
 
+        // set the fragment as per request
         if(sem != null){
             setTab(0)
             fragmentManager.beginTransaction()
-                .replace(R.id.frameLayout, Attendance(stream,sem))
+                .replace(frameLayout, Attendance(stream,sem))
                 .commit()
+            //  once attendance is taken same details shouldn't be shown
             stream = null
             sem = null
 
         }else{
             setTab(1)
             fragmentManager.beginTransaction()
-                .replace(R.id.frameLayout, AddDbFragment())
+                .replace(frameLayout, AddDbFragment())
                 .commit()
         }
 
-
+        // navigate using bottomNavigationBar
         bottomNavigationBar.setTabSelectedListener(object :
             BottomNavigationBar.OnTabSelectedListener {
             override fun onTabSelected(position: Int) {
@@ -59,7 +67,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 if (fragment != null) {
                     fragmentManager.beginTransaction()
-                        .replace(R.id.frameLayout, fragment).commit()
+                        .replace(frameLayout, fragment).commit()
                 }
             }
 
@@ -68,7 +76,7 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    private fun setTab(i: Int) {
+    private fun setTab(pos: Int) {
         bottomNavigationBar
             .addItem(
                 BottomNavigationItem(
@@ -81,7 +89,7 @@ class MainActivity : AppCompatActivity() {
                     R.drawable.database_icon,
                     "Database"
                 ).setActiveColor("#070565")
-            ).setFirstSelectedPosition(i)
+            ).setFirstSelectedPosition(pos)
             .initialise()
 
     }

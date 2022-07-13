@@ -12,7 +12,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
 import androidx.recyclerview.widget.DiffUtil
@@ -29,7 +28,6 @@ class Attendance(val stream: String?,val sem: String?) : Fragment() {
     var firebaseDatabase = FirebaseDatabase.getInstance()
     lateinit var ref: DatabaseReference
     lateinit var ref2: DatabaseReference
-    lateinit var StreamName:String
     private var manager: CardStackLayoutManager? = null
     private var adapter: CardStackAdapter? = null
     private lateinit var  db : DatabaseReference
@@ -47,8 +45,7 @@ class Attendance(val stream: String?,val sem: String?) : Fragment() {
     ): View? {
         val root = inflater.inflate(R.layout.fragment_attendance__card, container, false)
         init(root)
-//        val sh = requireActivity().getSharedPreferences("UserID", Context.MODE_PRIVATE);
-//        email = sh.getString("id", "")!!
+        // Taking reference of the firebase
         ref = firebaseDatabase.getReference("BIMS")
         ref2 = firebaseDatabase.getReference("BIMS")
         return root
@@ -60,39 +57,38 @@ class Attendance(val stream: String?,val sem: String?) : Fragment() {
         noDataArrow = root.findViewById(R.id.noDataArrow)
         cardStackView = root.findViewById(R.id.card_stack_view)
 
+        // If stream is null  then no data can be shown
         if(stream == null){
             noData.visibility = View.VISIBLE
             noDataArrow.visibility = View.VISIBLE
             cardStackView.visibility = View.GONE
-            Log.e("neel","Intent is null")
         }else{
             cardStackView.visibility = View.VISIBLE
             noData.visibility = View.GONE
             noDataArrow.visibility = View.GONE
-            Log.e("neel","Intent is not null")
         }
-
+        // access saved user email
         val sh = requireActivity().getSharedPreferences("UserID", Context.MODE_PRIVATE)
         email = sh.getString("id", "")!!
-        Log.e("neel",email)
         try {
-            Log.e("neel","try call")
         db = FirebaseDatabase.getInstance().getReference("BIMS").child(email).child(stream!!)
             .child(sem!!).child("nameId")
         prepareData()
         }catch (e : Exception){
-            Log.e("neel","Exception call "+e.message)
-            Log.e("TAGTAG",e.message.toString())
+            Log.e("Attendance","Exception call "+e.message)
         }
 
+
+        // handle card swiping
         manager = CardStackLayoutManager(context, object : CardStackListener {
             override fun onCardDragging(direction: Direction, ratio: Float) {
-                Log.d(TAG, "onCardDragging: d=" + direction.name + " ratio=" + ratio)
+                Log.d("TAG", "onCardDragging: d=" + direction.name + " ratio=" + ratio)
             }
 
             @RequiresApi(Build.VERSION_CODES.O)
             override fun onCardSwiped(direction: Direction) {
 
+                // To know when all items have been swiped:
                 if(total == 0){
                     total = adapter!!.itemCount
                 }
@@ -100,53 +96,47 @@ class Attendance(val stream: String?,val sem: String?) : Fragment() {
 
                 Log.e("TOTAL", "Adapter: "+ adapter!!.itemCount  + " total is "+total)
 
-                val curent = list[roll]
+                // Accessing the current student
+                val current = list[roll]
                 ++roll
-                val dateb=LocalDate.now().toString()
+                val date  = LocalDate.now().toString()
 
-                Log.d(TAG, "onCardSwiped: p=" + manager!!.topPosition + " d=" + direction)
+                Log.d("TAG", "onCardSwiped: p=" + manager!!.topPosition + " d=" + direction)
                 if (direction == Direction.Right) {
-                    var p = curent.present
+                    var p = current.present
                     p= p!! +1
+
                     ref.child(email).child(stream!!).child("semID").child(sem!!)
-                        .child("nameId").child(curent.roll.toString()).child("present")
+                        .child("nameId").child(current.roll.toString()).child("present")
                         .setValue(p)
 
-//                    val attnd = HashMap<String,Boolean>()
-//                    attnd[dateb] = true
-
+                    ref.child(email).child(stream).child("semID").child(sem)
+                        .child("nameId").child(current.roll.toString()).child("presentID").child(date).
+                        child("date").setValue(date)
 
                     ref.child(email).child(stream).child("semID").child(sem)
-                        .child("nameId").child(curent.roll.toString()).child("presentID").child(dateb).
-                            child("date").setValue(dateb)
-                    ref.child(email).child(stream).child("semID").child(sem)
-                        .child("nameId").child(curent.roll.toString()).child("presentID").child(dateb).
-                            child("att").setValue("Present")
+                        .child("nameId").child(current.roll.toString()).child("presentID").child(date).
+                        child("att").setValue("Present")
 
-                    Toast.makeText(getContext(), "Preset roll no "+curent.roll, Toast.LENGTH_SHORT).show()
+                    Toast.makeText(getContext(), "Preset roll no "+current.roll, Toast.LENGTH_SHORT).show()
                 }
-                if (direction == Direction.Top) {
 
-//                    Toast.makeText(getContext(), "Direction Top", Toast.LENGTH_SHORT).show();
-                }
                 if (direction == Direction.Left) {
                     ref.child(email).child(stream!!).child("semID").child(sem!!)
-                        .child("nameId").child(curent.roll.toString()).child("presentID").child(dateb).
-                        child("date").setValue(dateb)
+                        .child("nameId").child(current.roll.toString()).child("presentID").child(date).
+                        child("date").setValue(date)
                     ref.child(email).child(stream).child("semID").child(sem)
-                        .child("nameId").child(curent.roll.toString()).child("presentID").child(dateb).
+                        .child("nameId").child(current.roll.toString()).child("presentID").child(date).
                         child("att").setValue("Absent")
-                    Toast.makeText(getContext(), "Absent roll no "+curent.roll, Toast.LENGTH_SHORT).show()
-                }
-                if (direction == Direction.Bottom) {
-//                    Toast.makeText(getContext(), "Direction Bottom", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), "Absent roll no "+current.roll, Toast.LENGTH_SHORT).show()
                 }
 
                 // Paginating
-                if (manager!!.topPosition == adapter!!.itemCount - 5) {
-                    paginate()
-                }
+//                if (manager!!.topPosition == adapter!!.itemCount - 5) {
+//                    paginate()
+//                }
 
+                // all cards have been swiped : Show empty view
                 if(total == 0){
                     list.clear()
                     setAdapter()
@@ -157,35 +147,35 @@ class Attendance(val stream: String?,val sem: String?) : Fragment() {
             }
 
             override fun onCardRewound() {
-                Log.d(TAG, "onCardRewound: " + manager!!.topPosition)
+                Log.d("TAG", "onCardRewound: " + manager!!.topPosition)
             }
 
             override fun onCardCanceled() {
-                Log.d(TAG, "onCardRewound: " + manager!!.topPosition)
+                Log.d("TAG", "onCardRewound: " + manager!!.topPosition)
             }
 
             override fun onCardAppeared(view: View, position: Int) {
                 val tv = view.findViewById<TextView>(R.id.item_name)
-                Log.d(TAG, "onCardAppeared: " + position + ", nama: " + tv.text)
+                Log.d("TAG", "onCardAppeared: " + position + ", nama: " + tv.text)
             }
 
             override fun onCardDisappeared(view: View, position: Int) {
                 val tv = view.findViewById<TextView>(R.id.item_name)
-                Log.d(TAG, "onCardAppeared: " + position + ", nama: " + tv.text)
+                Log.d("TAG", "onCardAppeared: " + position + ", nama: " + tv.text)
             }
 
         })
-        manager!!.setStackFrom(StackFrom.None)
+
+        // some properties for swiping
         manager!!.setVisibleCount(3)
         manager!!.setTranslationInterval(8.0f)
         manager!!.setScaleInterval(0.95f)
         manager!!.setSwipeThreshold(0.3f)
         manager!!.setMaxDegree(20.0f)
-        manager!!.setDirections(Direction.FREEDOM)
+        manager!!.setDirections(Direction.HORIZONTAL)
         manager!!.setCanScrollHorizontal(true)
         manager!!.setSwipeableMethod(SwipeableMethod.Manual)
         manager!!.setOverlayInterpolator(LinearInterpolator())
-
     }
 
     private fun setAdapter() {
@@ -203,7 +193,7 @@ class Attendance(val stream: String?,val sem: String?) : Fragment() {
         ref2 = firebaseDatabase.getReference("BIMS").child(email)
             .child(stream.toString()).child("semID").child(sem.toString())
             .child("nameId")
-        Log.e("neel","call Data")
+
         ref2.addValueEventListener(object: ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 list.clear()
@@ -225,24 +215,14 @@ class Attendance(val stream: String?,val sem: String?) : Fragment() {
         })
     }
 
-    private fun paginate() {
-        val old = adapter!!.items
-        val latest: List<CardModel> = ArrayList(list)
-        val callback = CardStackCallback(old, latest)
-        val hasil = DiffUtil.calculateDiff(callback)
-        adapter!!.items = latest
-
-        hasil.dispatchUpdatesTo(adapter!!)
-    }
-
-    private fun addList(): List<CardModel> {
-
-        val items: MutableList<CardModel> = ArrayList()
-
-        return items
-    }
-
-    companion object {
-        private val TAG = AddDbFragment::class.java.simpleName
-    }
+//    private fun paginate() {
+//        val old = adapter!!.items
+//        val latest: List<CardModel> = ArrayList(list)
+//        val callback = CardStackCallback(old, latest)
+//        val hasil = DiffUtil.calculateDiff(callback)
+//        adapter!!.items = latest
+//
+//        hasil.dispatchUpdatesTo(adapter!!)
+//    }
+//
 }
