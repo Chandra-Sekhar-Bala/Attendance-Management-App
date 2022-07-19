@@ -27,8 +27,6 @@ class SignupActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         bind = ActivitySignupBinding.inflate(layoutInflater)
         setContentView(bind.root)
-        // disable night mode
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
 
         // firebase auth initialize
         mAuth = Firebase.auth
@@ -36,8 +34,8 @@ class SignupActivity : AppCompatActivity() {
         mAuth.firebaseAuthSettings.setAppVerificationDisabledForTesting(true)
 
         // If user is already registered :
-        val sh = getSharedPreferences("UserID", MODE_PRIVATE)
-        val id = sh.getString("id",null)
+        val sh = getSharedPreferences(getString(R.string.user_id), MODE_PRIVATE)
+        val id = sh.getString(getString(R.string.id),null)
         if(id != null){
             startActivity(Intent(this, MainActivity::class.java))
             finish()
@@ -157,11 +155,11 @@ class SignupActivity : AppCompatActivity() {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
                     Toast.makeText(this,"SignUp Successful",Toast.LENGTH_SHORT).show()
-                    val sh = getSharedPreferences("UserID", MODE_PRIVATE)
+                    val sh = getSharedPreferences(getString(R.string.user_id), MODE_PRIVATE)
                     val edit = sh.edit()
                     val user=mAuth.currentUser
                     val id=user!!.uid
-                    edit.putString("id",id)
+                    edit.putString(getString(R.string.id),id)
                     edit.apply()
 
 

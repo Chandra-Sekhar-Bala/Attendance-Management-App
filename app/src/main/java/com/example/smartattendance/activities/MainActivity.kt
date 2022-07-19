@@ -2,37 +2,33 @@ package com.example.smartattendance.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import com.example.smartattendance.R
-import android.widget.FrameLayout
 import androidx.fragment.app.Fragment
 import com.ashokvarma.bottomnavigation.BottomNavigationBar
 import com.ashokvarma.bottomnavigation.BottomNavigationItem
 import com.example.smartattendance.fragment.Attendance
 import com.example.smartattendance.fragment.AddDbFragment
-import com.example.smartattendance.fragment.Profile
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var bottomNavigationBar : BottomNavigationBar
     var fragmentManager = supportFragmentManager
-    private lateinit var frameLayout : FrameLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // Initilizie views
-        frameLayout = findViewById(R.id.frameLayout)
+        // Initialize views
         bottomNavigationBar = findViewById(R.id.bottom_navigation)
-        // setting up bottomNavigationbar design
+
+        // setting up bottomNavigation design
         bottomNavigationBar
             .setMode(BottomNavigationBar.MODE_SHIFTING)
         bottomNavigationBar
             .setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_RIPPLE)
         bottomNavigationBar
-            .setActiveColor("#FFFFFF")
-            .setInActiveColor("#353b48")
+            .setActiveColor(R.color.white)
+            .setInActiveColor(R.color.navigation_inactive_color)
 
         // intent receiving
         var stream = intent.getStringExtra("Stream")
@@ -42,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         if(sem != null){
             setTab(0)
             fragmentManager.beginTransaction()
-                .replace(frameLayout, Attendance(stream,sem))
+                .replace(R.id.frameLayout, Attendance(stream,sem))
                 .commit()
             //  once attendance is taken same details shouldn't be shown
             stream = null
@@ -51,7 +47,7 @@ class MainActivity : AppCompatActivity() {
         }else{
             setTab(1)
             fragmentManager.beginTransaction()
-                .replace(frameLayout, AddDbFragment())
+                .replace(R.id.frameLayout, AddDbFragment())
                 .commit()
         }
 
@@ -67,7 +63,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 if (fragment != null) {
                     fragmentManager.beginTransaction()
-                        .replace(frameLayout, fragment).commit()
+                        .replace(R.id.frameLayout, fragment).commit()
                 }
             }
 
@@ -82,13 +78,13 @@ class MainActivity : AppCompatActivity() {
                 BottomNavigationItem(
                     R.drawable.attendance_icon,
                     "Attendance"
-                ).setActiveColor("#040338")
+                ).setActiveColor(R.color.navigation_attendance_active_color)
             )
             .addItem(
                 BottomNavigationItem(
                     R.drawable.database_icon,
                     "Database"
-                ).setActiveColor("#070565")
+                ).setActiveColor(R.color.navigation_database_active_color)
             ).setFirstSelectedPosition(pos)
             .initialise()
 

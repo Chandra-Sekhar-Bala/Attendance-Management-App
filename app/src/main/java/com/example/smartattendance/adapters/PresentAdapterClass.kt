@@ -1,4 +1,4 @@
-package com.example.smartattendance.database.pre
+package com.example.smartattendance.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,19 +7,19 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.smartattendance.R
 import com.example.smartattendance.activities.presentStd
-import com.example.smartattendance.database.student_name.stdAdapterClass
+import com.example.smartattendance.model.presentDataClass
 
 
 class presentAdapterClass(private var userList: ArrayList<presentDataClass>, private val listener: presentStd): RecyclerView.Adapter<presentAdapterClass.MyViewHolder>() {
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): presentAdapterClass.MyViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view= LayoutInflater.from(parent.context).inflate(R.layout.pre_item_view,parent,false)
-        val viewHolder = presentAdapterClass.MyViewHolder(view)
+        val viewHolder = MyViewHolder(view)
         return viewHolder
     }
 
-    override fun onBindViewHolder(holder: presentAdapterClass.MyViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val currentItem=userList[position]
         holder.DateD.text=currentItem.date
         holder.PreD.text=currentItem.att

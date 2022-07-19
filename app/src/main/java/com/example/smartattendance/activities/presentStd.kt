@@ -3,17 +3,12 @@ package com.example.smartattendance.activities
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.smartattendance.R
-import com.example.smartattendance.adapters.semDataClass
-import com.example.smartattendance.database.Sem.semAdapterClass
-import com.example.smartattendance.database.pre.presentAdapterClass
-import com.example.smartattendance.database.pre.presentDataClass
-import com.google.android.material.color.ColorRoles
+import com.example.smartattendance.adapters.presentAdapterClass
+import com.example.smartattendance.model.presentDataClass
 import com.google.firebase.database.*
 
 class presentStd : AppCompatActivity() {

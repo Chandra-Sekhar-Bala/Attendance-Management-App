@@ -11,11 +11,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.smartattendance.R
-import com.example.smartattendance.database.student_name.stdAdapterClass
+import com.example.smartattendance.adapters.stdAdapterClass
 import com.example.smartattendance.model.CardModel
 import com.google.firebase.database.*
 
-class AddName : AppCompatActivity(),stdAdapterClass.stdItemCLicked{
+class AddName : AppCompatActivity(), stdAdapterClass.stdItemCLicked{
     lateinit var email:String
     lateinit var stdName: EditText
     lateinit var stdRoll: TextView

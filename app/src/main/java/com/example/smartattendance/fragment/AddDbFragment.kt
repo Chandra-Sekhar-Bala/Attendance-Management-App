@@ -16,8 +16,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.smartattendance.R
 import com.example.smartattendance.activities.SemAdd
-import com.example.smartattendance.database.AddDBAdapterClass
-import com.example.smartattendance.database.addDBDataClass
+import com.example.smartattendance.adapters.AddDBAdapterClass
+import com.example.smartattendance.model.addDBDataClass
 import com.google.firebase.database.*
 
 

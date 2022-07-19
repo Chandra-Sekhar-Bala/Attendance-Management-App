@@ -1,4 +1,4 @@
-package com.example.smartattendance.database
+package com.example.smartattendance.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.smartattendance.R
 import com.example.smartattendance.fragment.AddDbFragment
+import com.example.smartattendance.model.addDBDataClass
 
 class AddDBAdapterClass(private var userList: ArrayList<addDBDataClass>, private val listener: AddDbFragment): RecyclerView.Adapter<AddDBAdapterClass.MyViewHolder>() {
 
