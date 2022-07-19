@@ -9,4 +9,9 @@
     <string name="email_text">Sign Up With Email</string>
     <string name="guest_text">Continue As a Guest</string>
     <string name="vector_Image">Vector Image</string>
+    <string name="user_id">UserID</string>
+    <string name="id">id</string>
+    <string name="login">Login</string>
+    <string name="sign_up">Sign Up</string>
+
 </resources>

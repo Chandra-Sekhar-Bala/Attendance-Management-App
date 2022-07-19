@@ -47,8 +47,8 @@ class SemAdd :  AppCompatActivity(),semAdapterClass.semItemCLicked{
         ref2=firebaseDatabase.getReference("BIMS")
         StreamName= intent.getStringExtra("StrName").toString()
 
-        val sh = getSharedPreferences("UserID", MODE_PRIVATE);
-        email = sh.getString("id", "")!!
+        val sh = getSharedPreferences(getString(R.string.user_id), MODE_PRIVATE);
+        email = sh.getString(getString(R.string.id), "")!!
 
         data()
 

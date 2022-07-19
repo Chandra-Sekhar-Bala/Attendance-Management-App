@@ -48,8 +48,8 @@ class AddName : AppCompatActivity(), stdAdapterClass.stdItemCLicked{
         ref2 = firebaseDatabase.getReference("BIMS")
         semName = intent.getStringExtra("semName").toString()
         streamName = intent.getStringExtra("streamName").toString()
-        val sh = getSharedPreferences("UserID", MODE_PRIVATE);
-        email = sh.getString("id", "")!!
+        val sh = getSharedPreferences(getString(R.string.user_id), MODE_PRIVATE);
+        email = sh.getString(getString(R.string.id), "")!!
         data()
         addSdt.setOnClickListener() {
 
@@ -123,8 +123,6 @@ class AddName : AppCompatActivity(), stdAdapterClass.stdItemCLicked{
 
                             val user=userSnapshot.getValue(CardModel::class.java)
                             userArrayList.add(user!!)
-
-                            Log.e("LAWRA","From activity: "+user.present.toString())
                             roll = user.roll!!.toInt()
                         }
                         roll++

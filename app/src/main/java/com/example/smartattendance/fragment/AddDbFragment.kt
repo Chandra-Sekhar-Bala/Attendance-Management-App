@@ -51,8 +51,8 @@ class AddDbFragment : Fragment(), AddDBAdapterClass.StreamItemCLicked {
         myRef = database.getReference("BIMS")
         myRef2 = database.getReference("BIMS")
         userRecyclerView = view.findViewById(R.id.rr)
-        val sh = requireActivity().getSharedPreferences("UserID", Context.MODE_PRIVATE)
-        email = sh.getString("id", "")!!
+        val sh = requireActivity().getSharedPreferences(getString(R.string.user_id), Context.MODE_PRIVATE)
+        email = sh.getString(getString(R.string.id), "")!!
 
         addStreamData = view.findViewById(R.id.Add_Stream)
         user_str_item = view.findViewById(R.id.user_str_item)

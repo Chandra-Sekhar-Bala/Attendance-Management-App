@@ -41,8 +41,8 @@ class presentStd : AppCompatActivity() {
 
         preRoll.text=rollP
 
-        val sh = getSharedPreferences("UserID", MODE_PRIVATE);
-        email = sh.getString("id", "")!!
+        val sh = getSharedPreferences(getString(R.string.user_id), MODE_PRIVATE);
+        email = sh.getString(getString(R.string.id), "")!!
         data()
 
 

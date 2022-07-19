@@ -16,4 +16,7 @@
     <color name="red">#DF1515</color>
     <color name="purple">#6915DF</color>
     <color name="textGrey">#9F9EA1</color>
+    <color name="navigation_inactive_color">#353b48</color>
+    <color name="navigation_attendance_active_color">#040338</color>
+    <color name="navigation_database_active_color">#070565</color>
 </resources>

@@ -68,8 +68,8 @@ class Attendance(val stream: String?,val sem: String?) : Fragment() {
             noDataArrow.visibility = View.GONE
         }
         // access saved user email
-        val sh = requireActivity().getSharedPreferences("UserID", Context.MODE_PRIVATE)
-        email = sh.getString("id", "")!!
+        val sh = requireActivity().getSharedPreferences(getString(R.string.user_id), Context.MODE_PRIVATE)
+        email = sh.getString(getString(R.string.id), "")!!
         try {
         db = FirebaseDatabase.getInstance().getReference("BIMS").child(email).child(stream!!)
             .child(sem!!).child("nameId")

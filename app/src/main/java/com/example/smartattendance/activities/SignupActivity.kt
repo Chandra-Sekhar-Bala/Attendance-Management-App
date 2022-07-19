@@ -179,11 +179,11 @@ class SignupActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     // Sign in success, update UI with the signed-in user's information
 
-                    val sh = getSharedPreferences("UserID", MODE_PRIVATE)
+                    val sh = getSharedPreferences(getString(R.string.user_id), MODE_PRIVATE)
                     val edit = sh.edit()
                     val user=mAuth.currentUser
                     val id=user!!.uid
-                    edit.putString("id",id)
+                    edit.putString(getString(R.string.id),id)
                     edit.apply()
 
                     Toast.makeText(this,"Login Successful",Toast.LENGTH_SHORT).show()
