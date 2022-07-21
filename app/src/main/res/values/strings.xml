@@ -13,5 +13,11 @@
     <string name="id">id</string>
     <string name="login">Login</string>
     <string name="sign_up">Sign Up</string>
+    <string name="sign_in_with_google">Sign In With Google</string>
+    <string name="your_web_client_id">296876539471-smulrqsgf5kl9rvho75o29io201budv8.apps.googleusercontent.com</string>
+    <string name="signup_or_login">signup_or_login</string>
+    <string name="forget_password">Forget password</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
 
 </resources>

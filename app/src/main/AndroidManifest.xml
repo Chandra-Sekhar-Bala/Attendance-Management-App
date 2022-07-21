@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SmartAttendance">
         <activity
+            android:name=".activities.SignupLogin"
+            android:exported="false" />
+        <activity
             android:name=".activities.presentStd"
             android:exported="false" />
         <activity
