@@ -17,10 +17,6 @@ Technology is used is every field. Barely any sector can survive without tech. F
 Now all students are shown in a queue of card
 7. Swipe right to mark the student as present, or left for absent
 
-# Demo:
-
-![Smart-Attendance](https://user-images.githubusercontent.com/57448981/179068922-b1b12bae-c2ad-4fa5-9bea-aac3c66b6610.gif)
-
 # Team members : 
 [Chandra Sekhar Bala](https://github.com/Chandra-Sekhar-Bala)
 [Bratabitan Banerjee](https://github.com/neelqq)
