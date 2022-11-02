@@ -1,4 +1,4 @@
-package com.example.smartattendance.activities
+package com.example.smartattendance.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -11,7 +11,7 @@ import com.example.smartattendance.adapters.presentAdapterClass
 import com.example.smartattendance.model.presentDataClass
 import com.google.firebase.database.*
 
-class presentStd : AppCompatActivity() {
+class StdPresentActivity : AppCompatActivity() {
     lateinit var userRecyclerView: RecyclerView
     lateinit var firebaseDatabase: FirebaseDatabase
     lateinit var ref: DatabaseReference
@@ -26,7 +26,7 @@ class presentStd : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_present_std2)
+        setContentView(R.layout.activity_std_present)
 
         preRoll=findViewById(R.id.preRoll)
 
@@ -71,7 +71,7 @@ class presentStd : AppCompatActivity() {
                         userArrayList.add(user!!)
                         n++
                     }
-                    userRecyclerView.adapter= presentAdapterClass(userArrayList,this@presentStd)
+                    userRecyclerView.adapter= presentAdapterClass(userArrayList,this@StdPresentActivity)
                 }
             }
 

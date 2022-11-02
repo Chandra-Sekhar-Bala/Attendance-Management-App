@@ -62,32 +62,21 @@
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="@string/login"
-            android:visibility="visible"
-            android:textAllCaps="false"
-            android:textSize="18sp" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/signup_btn"
-            android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="@string/sign_up"
-            android:visibility="visible"
+            android:text="@string/login_with_phone"
+            android:visibility="gone"
             android:textAllCaps="false"
             android:textSize="18sp" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/signInWithGoogle"
             android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_height="70dp"
+            android:layout_marginTop="60dp"
+            android:backgroundTint="@color/google_btn_background"
+            android:drawableStart="@drawable/google_icon"
             android:text="@string/sign_in_with_google"
-            android:visibility="visible"
             android:textAllCaps="false"
             android:textSize="18sp" />
-
-
 
     </LinearLayout>
 

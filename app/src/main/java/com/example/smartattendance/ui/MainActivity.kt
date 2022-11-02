@@ -1,4 +1,4 @@
-package com.example.smartattendance.activities
+package com.example.smartattendance.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -6,17 +6,18 @@ import com.example.smartattendance.R
 import androidx.fragment.app.Fragment
 import com.ashokvarma.bottomnavigation.BottomNavigationBar
 import com.ashokvarma.bottomnavigation.BottomNavigationItem
-import com.example.smartattendance.fragment.Attendance
-import com.example.smartattendance.fragment.AddDbFragment
+import com.example.smartattendance.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var bottomNavigationBar : BottomNavigationBar
     var fragmentManager = supportFragmentManager
+    private lateinit var binding : ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         // Initialize views
         bottomNavigationBar = findViewById(R.id.bottom_navigation)
@@ -24,11 +25,8 @@ class MainActivity : AppCompatActivity() {
         // setting up bottomNavigation design
         bottomNavigationBar
             .setMode(BottomNavigationBar.MODE_SHIFTING)
-        bottomNavigationBar
             .setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_RIPPLE)
-        bottomNavigationBar
-            .setActiveColor(R.color.white)
-            .setInActiveColor(R.color.navigation_inactive_color)
+            .setBarBackgroundColor("#154EDF")
 
         // intent receiving
         var stream = intent.getStringExtra("Stream")
@@ -38,16 +36,15 @@ class MainActivity : AppCompatActivity() {
         if(sem != null){
             setTab(0)
             fragmentManager.beginTransaction()
-                .replace(R.id.frameLayout, Attendance(stream,sem))
+                .replace(R.id.frameLayout, AttendanceFragment(stream,sem))
                 .commit()
             //  once attendance is taken same details shouldn't be shown
             stream = null
             sem = null
-
         }else{
             setTab(1)
             fragmentManager.beginTransaction()
-                .replace(R.id.frameLayout, AddDbFragment())
+                .replace(R.id.frameLayout, AddDBFragment())
                 .commit()
         }
 
@@ -58,8 +55,8 @@ class MainActivity : AppCompatActivity() {
 
                 var fragment: Fragment? = null
                 when (position) {
-                    0 -> fragment = Attendance(stream,sem)
-                    1 -> fragment = AddDbFragment()
+                    0 -> fragment = AttendanceFragment(stream,sem)
+                    1 -> fragment = AddDBFragment()
                 }
                 if (fragment != null) {
                     fragmentManager.beginTransaction()
@@ -87,6 +84,5 @@ class MainActivity : AppCompatActivity() {
                 ).setActiveColor(R.color.navigation_database_active_color)
             ).setFirstSelectedPosition(pos)
             .initialise()
-
     }
 }

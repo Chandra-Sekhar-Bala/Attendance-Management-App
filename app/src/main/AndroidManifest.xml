@@ -12,19 +12,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SmartAttendance">
         <activity
-            android:name=".activities.SignupLogin"
+            android:name=".ui.emailSignup.EmailSignupActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.presentStd"
+            android:name=".ui.StdPresentActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.AddName"
+            android:name=".ui.AddStdName"
             android:exported="false" />
         <activity
-            android:name=".activities.SemAdd"
+            android:name=".ui.AddSemActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.SignupActivity"
+            android:name=".ui.SignupActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,7 +33,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.MainActivity"
+            android:name=".ui.MainActivity"
             android:exported="false" />
     </application>
 

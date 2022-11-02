@@ -7,10 +7,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.smartattendance.R
-import com.example.smartattendance.fragment.AddDbFragment
+import com.example.smartattendance.ui.AddDBFragment
 import com.example.smartattendance.model.addDBDataClass
 
-class AddDBAdapterClass(private var userList: ArrayList<addDBDataClass>, private val listener: AddDbFragment): RecyclerView.Adapter<AddDBAdapterClass.MyViewHolder>() {
+class AddDBAdapterClass(private var userList: ArrayList<addDBDataClass>, private val listener: AddDBFragment): RecyclerView.Adapter<AddDBAdapterClass.MyViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {

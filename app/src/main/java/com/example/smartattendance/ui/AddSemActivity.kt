@@ -1,4 +1,4 @@
-package com.example.smartattendance.activities
+package com.example.smartattendance.ui
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -8,18 +8,15 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.smartattendance.R
 import com.example.smartattendance.adapters.semDataClass
 import com.example.smartattendance.database.Sem.semAdapterClass
 import com.google.firebase.database.*
-import java.text.FieldPosition
 
-class SemAdd :  AppCompatActivity(),semAdapterClass.semItemCLicked{
+class AddSemActivity :  AppCompatActivity(),semAdapterClass.semItemCLicked{
     lateinit var email:String
     lateinit var SemName:EditText
     lateinit var SemAddButton:Button
@@ -86,7 +83,7 @@ class SemAdd :  AppCompatActivity(),semAdapterClass.semItemCLicked{
                         userArrayList.add(user!!)
                     }
                     progressBar.visibility = View.GONE
-                    userRecyclerView.adapter= semAdapterClass(userArrayList,this@SemAdd)
+                    userRecyclerView.adapter= semAdapterClass(userArrayList,this@AddSemActivity)
                 }else{
                     progressBar.visibility = View.GONE
                 }
@@ -108,7 +105,7 @@ class SemAdd :  AppCompatActivity(),semAdapterClass.semItemCLicked{
             override fun onDataChange(snapshot: DataSnapshot) {
 
                 userArrayList.clear()
-                adapter = semAdapterClass(userArrayList,this@SemAdd)
+                adapter = semAdapterClass(userArrayList,this@AddSemActivity)
                 userRecyclerView.adapter = adapter
             }
 
@@ -119,7 +116,7 @@ class SemAdd :  AppCompatActivity(),semAdapterClass.semItemCLicked{
     }
 
     override fun onItemCLicked(item: String) {
-        val intent= Intent(this,AddName::class.java)
+        val intent= Intent(this, AddStdName::class.java)
         intent.putExtra("semName",item)
         intent.putExtra("streamName",StreamName)
         startActivity(intent)
@@ -128,7 +125,7 @@ class SemAdd :  AppCompatActivity(),semAdapterClass.semItemCLicked{
 
     override fun onDeleteClicked(itemCLicked: String?, position: Int) {
 
-        val builder: AlertDialog.Builder = AlertDialog.Builder(this@SemAdd)
+        val builder: AlertDialog.Builder = AlertDialog.Builder(this@AddSemActivity)
 
         builder.setTitle("Delete sem/sec!")
         builder.setMessage("Are you sure, you want to delete this sem/sec?")

@@ -6,11 +6,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.smartattendance.R
-import com.example.smartattendance.activities.presentStd
+import com.example.smartattendance.ui.StdPresentActivity
 import com.example.smartattendance.model.presentDataClass
 
 
-class presentAdapterClass(private var userList: ArrayList<presentDataClass>, private val listener: presentStd): RecyclerView.Adapter<presentAdapterClass.MyViewHolder>() {
+class presentAdapterClass(private var userList: ArrayList<presentDataClass>, private val listener: StdPresentActivity): RecyclerView.Adapter<presentAdapterClass.MyViewHolder>() {
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {

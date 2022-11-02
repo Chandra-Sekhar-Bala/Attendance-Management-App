@@ -1,8 +1,7 @@
-package com.example.smartattendance.activities
+package com.example.smartattendance.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
@@ -15,28 +14,25 @@ import com.example.smartattendance.adapters.stdAdapterClass
 import com.example.smartattendance.model.CardModel
 import com.google.firebase.database.*
 
-class AddName : AppCompatActivity(), stdAdapterClass.stdItemCLicked{
-    lateinit var email:String
-    lateinit var stdName: EditText
-    lateinit var stdRoll: TextView
-    lateinit var stdPresent: EditText
-    lateinit var addSdt: Button
-    lateinit var startAttend: Button
-    lateinit var userRecyclerView: RecyclerView
-    lateinit var firebaseDatabase: FirebaseDatabase
-    lateinit var ref: DatabaseReference
-    lateinit var ref2: DatabaseReference
-    lateinit var userArrayList: ArrayList<CardModel>
-    lateinit var adapter: stdAdapterClass
-    lateinit var semName: String
-    lateinit var streamName: String
+class AddStdName : AppCompatActivity(), stdAdapterClass.stdItemCLicked{
+    private lateinit var email:String
+    private lateinit var stdName: EditText
+    private lateinit var stdRoll: TextView
+    private lateinit var addSdt: Button
+    private lateinit var startAttend: Button
+    private lateinit var userRecyclerView: RecyclerView
+    private lateinit var firebaseDatabase: FirebaseDatabase
+    private lateinit var ref: DatabaseReference
+    private lateinit var ref2: DatabaseReference
+    private lateinit var userArrayList: ArrayList<CardModel>
+    private lateinit var adapter: stdAdapterClass
+    private lateinit var semName: String
+    private lateinit var streamName: String
     var roll = 0
-
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_add_name)
+        setContentView(R.layout.activity_add_std_name)
 
         stdName = findViewById(R.id.sdtName)
         stdRoll = findViewById(R.id.sdtRoll)
@@ -81,7 +77,7 @@ class AddName : AppCompatActivity(), stdAdapterClass.stdItemCLicked{
 
 
         startAttend.setOnClickListener {
-            val intent=Intent(this,MainActivity::class.java)
+            val intent=Intent(this, MainActivity::class.java)
             intent.putExtra("Stream",streamName)
             intent.putExtra("Sem",semName)
             startActivity(intent)
@@ -128,7 +124,7 @@ class AddName : AppCompatActivity(), stdAdapterClass.stdItemCLicked{
                         roll++
                         stdRoll.text = roll.toString()
 
-                        userRecyclerView.adapter= stdAdapterClass(userArrayList,this@AddName)
+                        userRecyclerView.adapter= stdAdapterClass(userArrayList,this@AddStdName)
                     }
                 }
 
@@ -148,7 +144,7 @@ class AddName : AppCompatActivity(), stdAdapterClass.stdItemCLicked{
             override fun onDataChange(snapshot: DataSnapshot) {
 
                 userArrayList.clear()
-                adapter = stdAdapterClass(userArrayList,this@AddName)
+                adapter = stdAdapterClass(userArrayList,this@AddStdName)
                 userRecyclerView.adapter = adapter
             }
 
@@ -163,7 +159,7 @@ class AddName : AppCompatActivity(), stdAdapterClass.stdItemCLicked{
 
     override fun onItemCLickedStd(itemCLicked: String?) {
 
-        val intent=Intent(this,presentStd::class.java)
+        val intent=Intent(this, StdPresentActivity::class.java)
         intent.putExtra("stream",streamName)
         intent.putExtra("sem",semName)
         intent.putExtra("roll",itemCLicked.toString())

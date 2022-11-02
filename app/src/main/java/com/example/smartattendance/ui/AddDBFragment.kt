@@ -1,4 +1,4 @@
-package com.example.smartattendance.fragment
+package com.example.smartattendance.ui
 
 import android.content.Context
 import android.content.Intent
@@ -9,31 +9,29 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ProgressBar
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.smartattendance.R
-import com.example.smartattendance.activities.SemAdd
 import com.example.smartattendance.adapters.AddDBAdapterClass
 import com.example.smartattendance.model.addDBDataClass
 import com.google.firebase.database.*
 
 
-class AddDbFragment : Fragment(), AddDBAdapterClass.StreamItemCLicked {
+class AddDBFragment : Fragment(), AddDBAdapterClass.StreamItemCLicked {
 
-    lateinit var database: FirebaseDatabase
-    lateinit var myRef: DatabaseReference
-    lateinit var myRef2: DatabaseReference
-    lateinit var myRef3: DatabaseReference
-    lateinit var addStreamData: Button
-    lateinit var userRecyclerView: RecyclerView
-    lateinit var userArrayList: ArrayList<addDBDataClass>
-    lateinit var adapter: AddDBAdapterClass
-    lateinit var email: String
-    lateinit var user_str_item: EditText
-    lateinit var progressBar: ProgressBar
+    private lateinit var database: FirebaseDatabase
+    private lateinit var myRef: DatabaseReference
+    private lateinit var myRef2: DatabaseReference
+    private lateinit var myRef3: DatabaseReference
+    private lateinit var addStreamData: Button
+    private lateinit var userRecyclerView: RecyclerView
+    private lateinit var userArrayList: ArrayList<addDBDataClass>
+    private lateinit var adapter: AddDBAdapterClass
+    private lateinit var email: String
+    private lateinit var user_str_item: EditText
+    private lateinit var progressBar: ProgressBar
 
 
     override fun onCreateView(
@@ -98,12 +96,12 @@ class AddDbFragment : Fragment(), AddDBAdapterClass.StreamItemCLicked {
                         val user = userSnapshot.getValue(addDBDataClass::class.java)
                         userArrayList.add(user!!)
                     }
-                    progressBar.visibility = View.GONE
-                    adapter = AddDBAdapterClass(userArrayList, this@AddDbFragment)
+                    adapter = AddDBAdapterClass(userArrayList, this@AddDBFragment)
                 }
+                progressBar.visibility = View.GONE
             }
-
             override fun onCancelled(error: DatabaseError) {
+                progressBar.visibility = View.GONE
                 TODO("Not yet implemented")
             }
 
@@ -118,7 +116,7 @@ class AddDbFragment : Fragment(), AddDBAdapterClass.StreamItemCLicked {
             override fun onDataChange(snapshot: DataSnapshot) {
 
                 userArrayList.clear()
-                adapter = AddDBAdapterClass(userArrayList, this@AddDbFragment)
+                adapter = AddDBAdapterClass(userArrayList, this@AddDBFragment)
                 userRecyclerView.adapter = adapter
             }
 
@@ -126,13 +124,10 @@ class AddDbFragment : Fragment(), AddDBAdapterClass.StreamItemCLicked {
                 TODO("Not yet implemented")
             }
         })
-        fun onClick(position: Int) {
-            Toast.makeText(context, "onClick $position", Toast.LENGTH_LONG).show()
-        }
     }
 
     override fun onItemCLicked(item: String) {
-        val intent = Intent(context, SemAdd::class.java)
+        val intent = Intent(context, AddSemActivity::class.java)
         intent.putExtra("StrName", item)
         startActivity(intent)
     }

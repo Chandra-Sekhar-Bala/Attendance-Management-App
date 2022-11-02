@@ -7,11 +7,11 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.smartattendance.R
-import com.example.smartattendance.activities.AddName
+import com.example.smartattendance.ui.AddStdName
 import com.example.smartattendance.model.CardModel
 
 
-class stdAdapterClass (private val userArrayList: ArrayList<CardModel>, private val listener:AddName):RecyclerView.Adapter<stdAdapterClass.MyViewHolder>()
+class stdAdapterClass (private val userArrayList: ArrayList<CardModel>, private val listener: AddStdName):RecyclerView.Adapter<stdAdapterClass.MyViewHolder>()
 {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {

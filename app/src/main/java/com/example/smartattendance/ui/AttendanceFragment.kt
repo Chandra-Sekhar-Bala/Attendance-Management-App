@@ -1,4 +1,4 @@
-package com.example.smartattendance.fragment
+package com.example.smartattendance.ui
 
 import android.content.Context
 import android.os.Build
@@ -14,8 +14,6 @@ import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.DiffUtil
-import com.example.smartattendance.CardStackCallback
 import com.example.smartattendance.R
 import com.example.smartattendance.adapters.CardStackAdapter
 import com.example.smartattendance.model.CardModel
@@ -23,7 +21,7 @@ import com.google.firebase.database.*
 import com.yuyakaido.android.cardstackview.*
 import java.time.LocalDate
 
-class Attendance(val stream: String?,val sem: String?) : Fragment() {
+class AttendanceFragment(val stream: String?, val sem: String?) : Fragment() {
 
     var firebaseDatabase = FirebaseDatabase.getInstance()
     lateinit var ref: DatabaseReference
@@ -75,7 +73,7 @@ class Attendance(val stream: String?,val sem: String?) : Fragment() {
             .child(sem!!).child("nameId")
         prepareData()
         }catch (e : Exception){
-            Log.e("Attendance","Exception call "+e.message)
+            Log.e("AttendanceFragment","Exception call "+e.message)
         }
 
 

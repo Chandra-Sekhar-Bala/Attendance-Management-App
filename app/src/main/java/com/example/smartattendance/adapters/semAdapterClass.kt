@@ -7,10 +7,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.smartattendance.R
-import com.example.smartattendance.activities.SemAdd
+import com.example.smartattendance.ui.AddSemActivity
 import com.example.smartattendance.adapters.semDataClass
 
-class semAdapterClass(private val userList: ArrayList<semDataClass>, private val listener: SemAdd): RecyclerView.Adapter<semAdapterClass.MyViewHolder>() {
+class semAdapterClass(private val userList: ArrayList<semDataClass>, private val listener: AddSemActivity): RecyclerView.Adapter<semAdapterClass.MyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val view= LayoutInflater.from(parent.context).inflate(R.layout.item_view,parent,false)
