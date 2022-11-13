@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/addDBFragment">
+
+    <fragment
+        android:id="@+id/attendanceFragment"
+        android:name="com.example.smartattendance.ui.AttendanceFragment"
+        android:label="AttendanceFragment"
+        tools:layout="@layout/fragment_attendance__card"
+        >
+        <argument
+            android:name="stream"
+            app:argType="string"
+            app:nullable="true" />
+        <argument
+            android:name="sem"
+            app:argType="string"
+            app:nullable="true"/>
+    </fragment>
+
+    <fragment
+        android:id="@+id/addDBFragment"
+        android:name="com.example.smartattendance.ui.AddDBFragment"
+        android:label="AddDBFragment"
+        tools:layout="@layout/fragment_add_db"/>
+</navigation>

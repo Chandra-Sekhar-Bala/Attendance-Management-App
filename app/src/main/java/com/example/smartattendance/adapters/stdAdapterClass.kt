@@ -27,7 +27,6 @@ class stdAdapterClass (private val userArrayList: ArrayList<CardModel>, private 
         val currentItem=userArrayList[position]
         holder.rollD.text=currentItem.roll
         holder.nameD.text=currentItem.name
-        Log.e("LAWRA",currentItem.present.toString())
         holder.pd.text= currentItem.present.toString()
 
 

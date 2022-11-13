@@ -1,17 +1,14 @@
 package com.example.smartattendance.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.findNavController
+import androidx.navigation.ui.setupWithNavController
 import com.example.smartattendance.R
-import androidx.fragment.app.Fragment
-import com.ashokvarma.bottomnavigation.BottomNavigationBar
-import com.ashokvarma.bottomnavigation.BottomNavigationItem
 import com.example.smartattendance.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var bottomNavigationBar : BottomNavigationBar
-    var fragmentManager = supportFragmentManager
     private lateinit var binding : ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,70 +16,32 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Initialize views
-        bottomNavigationBar = findViewById(R.id.bottom_navigation)
-
-        // setting up bottomNavigation design
-        bottomNavigationBar
-            .setMode(BottomNavigationBar.MODE_SHIFTING)
-            .setBackgroundStyle(BottomNavigationBar.BACKGROUND_STYLE_RIPPLE)
-            .setBarBackgroundColor("#154EDF")
+        val navController = this.findNavController(R.id.frameLayout)
+        binding.bottomNavigation.setupWithNavController(navController)
 
         // intent receiving
-        var stream = intent.getStringExtra("Stream")
-        var sem = intent.getStringExtra("Sem")
+        val stream = intent.getStringExtra("Stream")
+        val sem = intent.getStringExtra("Sem")
+        val bundle = Bundle()
+        bundle.putString("stream",stream)
+        bundle.putString("sem",sem)
+        // setting up navigation
+        if(stream != null) navController.navigate(R.id.attendanceFragment, bundle)
 
-        // set the fragment as per request
-        if(sem != null){
-            setTab(0)
-            fragmentManager.beginTransaction()
-                .replace(R.id.frameLayout, AttendanceFragment(stream,sem))
-                .commit()
-            //  once attendance is taken same details shouldn't be shown
-            stream = null
-            sem = null
-        }else{
-            setTab(1)
-            fragmentManager.beginTransaction()
-                .replace(R.id.frameLayout, AddDBFragment())
-                .commit()
+        binding.bottomNavigation.setOnItemSelectedListener { item ->
+
+            /**
+             * Called when an item in the navigation menu is selected.
+             *
+             * @param item The selected item
+             * @return true to display the item as the selected item and false if the item should not be
+             * selected. Consider setting non-selectable items as disabled preemptively to make them
+             * appear non-interactive.
+             */
+            navController.navigate(item.itemId, bundle)
+
+            true
         }
 
-        // navigate using bottomNavigationBar
-        bottomNavigationBar.setTabSelectedListener(object :
-            BottomNavigationBar.OnTabSelectedListener {
-            override fun onTabSelected(position: Int) {
-
-                var fragment: Fragment? = null
-                when (position) {
-                    0 -> fragment = AttendanceFragment(stream,sem)
-                    1 -> fragment = AddDBFragment()
-                }
-                if (fragment != null) {
-                    fragmentManager.beginTransaction()
-                        .replace(R.id.frameLayout, fragment).commit()
-                }
-            }
-
-            override fun onTabUnselected(position: Int) {}
-            override fun onTabReselected(position: Int) {}
-        })
-    }
-
-    private fun setTab(pos: Int) {
-        bottomNavigationBar
-            .addItem(
-                BottomNavigationItem(
-                    R.drawable.attendance_icon,
-                    "Attendance"
-                ).setActiveColor(R.color.navigation_attendance_active_color)
-            )
-            .addItem(
-                BottomNavigationItem(
-                    R.drawable.database_icon,
-                    "Database"
-                ).setActiveColor(R.color.navigation_database_active_color)
-            ).setFirstSelectedPosition(pos)
-            .initialise()
     }
 }

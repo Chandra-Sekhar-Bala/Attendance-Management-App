@@ -13,6 +13,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.DefaultItemAnimator
 import com.example.smartattendance.R
 import com.example.smartattendance.adapters.CardStackAdapter
@@ -21,7 +22,7 @@ import com.google.firebase.database.*
 import com.yuyakaido.android.cardstackview.*
 import java.time.LocalDate
 
-class AttendanceFragment(val stream: String?, val sem: String?) : Fragment() {
+class AttendanceFragment : Fragment() {
 
     var firebaseDatabase = FirebaseDatabase.getInstance()
     lateinit var ref: DatabaseReference
@@ -36,16 +37,25 @@ class AttendanceFragment(val stream: String?, val sem: String?) : Fragment() {
     lateinit var noDataArrow: ImageView
     lateinit var email:String
     var total = 0
+    private var stream : String? = null
+    private var sem : String? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?, savedInstanceState: Bundle?
     ): View? {
         val root = inflater.inflate(R.layout.fragment_attendance__card, container, false)
-        init(root)
+
         // Taking reference of the firebase
         ref = firebaseDatabase.getReference("BIMS")
         ref2 = firebaseDatabase.getReference("BIMS")
+        val args : AttendanceFragmentArgs by navArgs()
+        sem = args.sem.toString()
+        stream = args.stream.toString()
+        Log.d("TAG", "sem: $sem")
+        Log.d("TAG", "stream: $stream")
+        init(root)
+
         return root
     }
 
@@ -108,11 +118,11 @@ class AttendanceFragment(val stream: String?, val sem: String?) : Fragment() {
                         .child("nameId").child(current.roll.toString()).child("present")
                         .setValue(p)
 
-                    ref.child(email).child(stream).child("semID").child(sem)
+                    ref.child(email).child(stream!!).child("semID").child(sem!!)
                         .child("nameId").child(current.roll.toString()).child("presentID").child(date).
                         child("date").setValue(date)
 
-                    ref.child(email).child(stream).child("semID").child(sem)
+                    ref.child(email).child(stream!!).child("semID").child(sem!!)
                         .child("nameId").child(current.roll.toString()).child("presentID").child(date).
                         child("att").setValue("Present")
 
@@ -123,7 +133,7 @@ class AttendanceFragment(val stream: String?, val sem: String?) : Fragment() {
                     ref.child(email).child(stream!!).child("semID").child(sem!!)
                         .child("nameId").child(current.roll.toString()).child("presentID").child(date).
                         child("date").setValue(date)
-                    ref.child(email).child(stream).child("semID").child(sem)
+                    ref.child(email).child(stream!!).child("semID").child(sem!!)
                         .child("nameId").child(current.roll.toString()).child("presentID").child(date).
                         child("att").setValue("Absent")
                     Toast.makeText(getContext(), "Absent roll no "+current.roll, Toast.LENGTH_SHORT).show()
@@ -213,14 +223,5 @@ class AttendanceFragment(val stream: String?, val sem: String?) : Fragment() {
         })
     }
 
-//    private fun paginate() {
-//        val old = adapter!!.items
-//        val latest: List<CardModel> = ArrayList(list)
-//        val callback = CardStackCallback(old, latest)
-//        val hasil = DiffUtil.calculateDiff(callback)
-//        adapter!!.items = latest
-//
-//        hasil.dispatchUpdatesTo(adapter!!)
-//    }
-//
+
 }
