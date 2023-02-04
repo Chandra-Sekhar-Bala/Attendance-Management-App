@@ -35,6 +35,23 @@
         <activity
             android:name=".ui.MainActivity"
             android:exported="false" />
+        <activity
+            android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize">
+            <meta-data
+                android:name="com.google.android.gms.signin.internal.offlineAccessRequested"
+                android:value="false"/>
+            <meta-data
+                android:name="com.google.android.gms.signin.internal.realClientPackageName"
+                android:value= "${applicationId}"/>
+            <intent-filter>
+                <action android:name="com.google.android.gms.auth.NO_IMPL"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
     </application>
+
 
 </manifest>
