@@ -20,7 +20,7 @@
             android:layout_height="match_parent">
             <TextView
                 android:id="@+id/dateP"
-                android:textColor="@color/purple_700"
+                android:textColor="@color/blue_700"
                 android:layout_margin="10dp"
                 android:textSize="30dp"
                 android:text="00-00-0000"

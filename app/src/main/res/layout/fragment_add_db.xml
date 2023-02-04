@@ -37,7 +37,7 @@
         android:id="@+id/Add_Stream"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/purple_200"
+        android:backgroundTint="@color/blue_200"
         android:text="Add Stream"
         android:textColor="@color/white"
         android:paddingVertical="18dp"

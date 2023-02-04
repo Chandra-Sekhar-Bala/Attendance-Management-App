@@ -149,12 +149,9 @@ class AddStdName : AppCompatActivity(), stdAdapterClass.stdItemCLicked{
             }
 
             override fun onCancelled(error: DatabaseError) {
-                TODO("Not yet implemented")
+
             }
         })
-//        fun onClick(position: Int) {
-//            Toast.makeText(this, "onClick $position", Toast.LENGTH_LONG).show()
-//        }
     }
 
     override fun onItemCLickedStd(itemCLicked: String?) {

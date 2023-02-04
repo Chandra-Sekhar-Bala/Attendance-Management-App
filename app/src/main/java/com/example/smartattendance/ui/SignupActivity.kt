@@ -33,20 +33,24 @@ class SignupActivity : AppCompatActivity() {
         binding = ActivitySignupBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // firebase auth initialize
+        mAuth = Firebase.auth
+
         // If user is already registered move to home:
-        sh = getSharedPreferences(getString(R.string.user_id), MODE_PRIVATE)
-        val id = sh.getString(getString(R.string.id),null)
-        if(id != null){
+        if(mAuth.currentUser != null){
             startActivity(Intent(this, MainActivity::class.java))
             finishAffinity()
         }
+//        sh = getSharedPreferences(getString(R.string.user_id), MODE_PRIVATE)
+//        val id = sh.getString(getString(R.string.id),null)
+//        if(id != null){
+//
+//        }
 
         buildGoogleSigIn()
     }
 
     private fun buildGoogleSigIn() {
-        // firebase auth initialize
-        mAuth = Firebase.auth
 
         // goggle SignIn client
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)

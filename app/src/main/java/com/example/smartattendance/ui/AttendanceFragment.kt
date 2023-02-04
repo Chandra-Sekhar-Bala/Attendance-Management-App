@@ -24,9 +24,9 @@ import java.time.LocalDate
 
 class AttendanceFragment : Fragment() {
 
-    var firebaseDatabase = FirebaseDatabase.getInstance()
+    private var firebaseDatabase = FirebaseDatabase.getInstance()
     lateinit var ref: DatabaseReference
-    lateinit var ref2: DatabaseReference
+    private lateinit var ref2: DatabaseReference
     private var manager: CardStackLayoutManager? = null
     private var adapter: CardStackAdapter? = null
     private lateinit var  db : DatabaseReference
@@ -222,6 +222,5 @@ class AttendanceFragment : Fragment() {
 
         })
     }
-
 
 }

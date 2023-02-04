@@ -3,40 +3,57 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardElevation="10dp"
-        app:cardCornerRadius="20dp"
-        android:layout_margin="10dp"
-        app:cardBackgroundColor="@color/white"
-        app:cardMaxElevation="12dp"
-        app:cardPreventCornerOverlap="true"
         android:layout_marginHorizontal="10dp"
         android:layout_marginVertical="6dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginBottom="10dp"
         android:paddingVertical="6dp"
-        >
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="20dp"
+        app:cardElevation="10dp"
+        app:cardMaxElevation="12dp"
+        app:cardPreventCornerOverlap="true">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:gravity="center">
+            android:layout_gravity="center_vertical"
+            android:padding="10dp"
+            android:orientation="horizontal"
+            android:weightSum="5"
+            >
+
+            <ImageView
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:layout_gravity="clip_vertical"
+                android:layout_weight="1"
+                android:src="@drawable/essay" />
 
             <TextView
-                android:gravity="center"
                 android:id="@+id/item"
-                android:layout_width="200dp"
-                android:textColor="@color/black"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_weight="3"
+                android:gravity="center"
                 android:text="item View"
-                android:textSize="30dp"/>
+                android:textColor="@color/black"
+                android:textSize="30dp" />
 
             <ImageView
                 android:id="@+id/delete_item"
                 android:layout_width="34dp"
-                android:layout_height="match_parent"
-                android:src="@drawable/ic_baseline_delete_24"
-                />
+                android:layout_height="40dp"
+                android:layout_gravity="end"
+                android:layout_weight="1"
+                android:src="@drawable/ic_baseline_delete_24" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 </RelativeLayout>

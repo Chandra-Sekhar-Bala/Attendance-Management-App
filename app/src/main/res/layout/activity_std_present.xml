@@ -24,7 +24,7 @@
             android:gravity="center"
             android:layout_height="match_parent">
             <TextView
-                android:textColor="@color/purple_700"
+                android:textColor="@color/blue_700"
                 android:textSize="30sp"
                 android:text="Roll :- "
                 android:layout_margin="10dp"

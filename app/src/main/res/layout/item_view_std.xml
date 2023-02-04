@@ -40,7 +40,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="roll"
-                        android:textColor="@color/purple_500"
+                        android:textColor="@color/blue_500"
                         android:textSize="20dp" />
 
                     <TextView
@@ -63,7 +63,7 @@
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:text="name"
-                        android:textColor="@color/purple_500"
+                        android:textColor="@color/blue_500"
                         android:textSize="20dp" />
 
                     <TextView
@@ -88,7 +88,7 @@
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:text="prsent"
-                        android:textColor="@color/purple_500"
+                        android:textColor="@color/blue_500"
                         android:textSize="18dp" />
 
                     <TextView

@@ -11,7 +11,7 @@
 
     <Button
         android:textStyle="bold"
-        android:backgroundTint="@color/purple_200"
+        android:backgroundTint="@color/blue_200"
         android:id="@+id/startAttendance"
         android:text="start Attendance"
         android:textColor="@color/white"
@@ -42,6 +42,8 @@
         android:text="1"
         android:textSize="20sp"
         android:padding="3dp"
+        android:paddingStart="10dp"
+        android:layout_marginStart="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"/>
@@ -67,7 +69,7 @@
         android:layout_height="wrap_content"
         android:paddingVertical="18dp"
         android:layout_margin="5dp"
-        android:backgroundTint="@color/purple_200"
+        android:backgroundTint="@color/blue_200"
         android:text="add"
         android:textSize="16sp"
         android:textColor="@color/white"
