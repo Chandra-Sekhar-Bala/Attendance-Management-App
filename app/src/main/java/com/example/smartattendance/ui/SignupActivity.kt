@@ -69,6 +69,7 @@ class SignupActivity : AppCompatActivity() {
     }
 
     // Handle sign-in result
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -143,12 +144,12 @@ class SignupActivity : AppCompatActivity() {
         private fun updateUI(user: FirebaseUser?) {
            if(user!= null){
                Log.e(TAG, "User is not null")
-               binding.progressBar.visibility = View.GONE
 //               val edit = sh.edit()
 //               edit.putString(getString(R.string.id), user.uid)
 //               edit.apply()
                Toast.makeText(this, "Welcome " + user.displayName, Toast.LENGTH_SHORT).show()
                startActivity(Intent(this, MainActivity::class.java))
+               finishAffinity()
            }else{
                Log.e(TAG, "User is null")
            }
