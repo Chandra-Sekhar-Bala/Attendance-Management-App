@@ -17,6 +17,20 @@ Technology is used is every field. Barely any sector can survive without tech. F
 Now all students are shown in a queue of card
 7. Swipe right to mark the student as present, or left for absent
 
+### Watch Demo 
+
+<a href="https://youtu.be/zCd29PxkHhs">
+  <img src="https://github-production-user-asset-6210df.s3.amazonaws.com/57448981/237409266-ff16d5e8-7c34-48a5-9162-b0f96589f29b.png" width="80" />
+</a>
+
+
+![20230619_003752](https://github.com/Chandra-Sekhar-Bala/Attendance-Management-App/assets/57448981/c24ca0ef-cca6-4a1a-beb1-999418299125)
+![20230619_004009](https://github.com/Chandra-Sekhar-Bala/Attendance-Management-App/assets/57448981/978f1d06-47d0-4f0e-bc13-65661e40980b)
+![20230619_003654](https://github.com/Chandra-Sekhar-Bala/Attendance-Management-App/assets/57448981/80bddece-57f5-45c3-ab03-c84141946bb2)
+![20230619_004130](https://github.com/Chandra-Sekhar-Bala/Attendance-Management-App/assets/57448981/ba9f0e9a-e69e-4738-a434-6d7b77cf3b8e)
+
+
+
 # Team members : 
 [Chandra Sekhar Bala](https://github.com/Chandra-Sekhar-Bala)
 [Bratabitan Banerjee](https://github.com/neelqq)
